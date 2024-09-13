@@ -1,4 +1,4 @@
-﻿name: 'V1-B$(Date:yyyyMMdd)-$(BuildID)'
+name: 'V1-B$(Date:yyyyMMdd)-$(BuildID)'
 
 parameters:
   - name: forceDevDeploy
