@@ -1,0 +1,88 @@
+﻿name: 'V1-B$(Date:yyyyMMdd)-$(BuildID)'
+
+parameters:
+  - name: forceDevDeploy
+    displayName: "Force deployment to DEV"
+    type: boolean
+    default: false
+  - name: deployDevSlot
+    displayName: 'Deploy to DEV Staging Slot?'
+    type: boolean
+    default: false
+  - name: deployTstSlot
+    displayName: 'Deploy to TST Staging Slot?'
+    type: boolean
+    default: false
+  - name: deployPreSlot
+    displayName: 'Deploy to Pre-Prod Staging Slot?'
+    type: boolean
+    default: false
+  - name: deployPrdSlot
+    displayName: 'Deploy to Production Staging Slot?'
+    type: boolean
+    default: false
+  - name: deployToSecondary
+    displayName: "Select Secondary Region"
+    type: string
+    default: PRD
+    values:
+      - None
+      - DEV
+      - TST
+      - PRE
+      - PRD
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - '*'
+  paths:
+    include:
+      - /*
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA-TRD/Defra.TRD.Pipeline.Common
+      type: git
+      ref: master
+  pipelines:
+    - pipeline: INFRA
+      source: Defra.Trade.API.Infra CatchCertificate
+      trigger:
+        branches:
+          include:
+            - '*'
+        stages:
+          - DEV
+
+variables:
+  APIName: Defra.Trade.Events.Services.CatchCertificates
+
+extends:
+  template: /templates/basic-webapp-deploy-pipeline.yaml@PipelineCommon
+  parameters:
+    forceDevDeploy: ${{ parameters.forceDevDeploy }}
+    deployToSecondary: ${{ parameters.deployToSecondary }}
+    appName: $(APIName)
+    appProject: TRE
+    appType: 'functionApp'
+    appInstanceNumber: $(nc-region-id)10
+    appSettings: >-
+        -EventStoreConfig:DisableEventStoreLogging false
+        -ServiceBusConnectionString__fullyQualifiedNamespace "$(serviceBusNamespace)" 
+        -MmoApiConfig:BaseAddress "https://$(internalAPIMUrl)/trade-catch-certificate-internal"        
+        -MmoApiConfig:ApiVersion "1-internal"
+        -ApimSettings:BackendAppIdUri "api://$(environment)-futuretrade-int.defra.gov.uk" 
+        -ApimSettings:Authority "$(internalAPIMAudience)" 
+        -KeyVaultEndpoint "https://$(environment)trd$(nc-function-infrastructure)$(nc-resource-keyvault)1001.vault.azure.net/"
+        -FUNCTIONS_INPROC_NET8_ENABLED "1"
+
+    publishProject: '**/Defra.Trade.Events.Services.CatchCertificates.csproj'
+    setupSlotServiceBusAccess: true
+    setupSlotKeyVaultAccess: true
+    deployDevSlot: ${{ parameters.deployDevSlot }}
+    deployTstSlot: ${{ parameters.deployTstSlot }}
+    deployPreSlot: ${{ parameters.deployPreSlot }}
+    deployPrdSlot: ${{ parameters.deployPrdSlot }}
