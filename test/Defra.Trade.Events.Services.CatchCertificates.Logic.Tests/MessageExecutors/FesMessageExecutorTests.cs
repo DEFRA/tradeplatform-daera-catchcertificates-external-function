@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
 using Defra.Trade.Common.Functions;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.MessageExecutors;
-using Defra.Trade.Events.Services.CatchCertificates.Logic.V1.Dto.Inbound;
+using Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.ServiceBus;
 using Moq;
