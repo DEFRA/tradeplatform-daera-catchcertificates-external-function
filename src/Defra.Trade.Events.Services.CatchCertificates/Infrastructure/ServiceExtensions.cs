@@ -22,11 +22,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using V1Api = Defra.Trade.Catch.Certificate.Internal.V1INTERNAL.ApiClient.Api;
-using V1Configuration = Defra.Trade.Catch.Certificate.Internal.V1INTERNAL.ApiClient.Client.Configuration;
-using V1Filter = Defra.Trade.Events.Services.CatchCertificates.Logic.V1.MessageFilter;
-using V1Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V1.Dto.Inbound;
-using V1Processors = Defra.Trade.Events.Services.CatchCertificates.Logic.V1.MessageProcessors;
 using V2Api = Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient.Api;
 using V2Configuration = Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient.Client.Configuration;
 using V2Filter = Defra.Trade.Events.Services.CatchCertificates.Logic.V2.MessageFilter;
@@ -55,11 +50,6 @@ public static class ServiceExtensions
     private static IServiceCollection AddApiClients(this IServiceCollection services)
     {
         return services
-            .AddScoped(CreateV1ApiClientConfig)
-            .AddScoped<V1Api.IMmoCatchCertificateCaseApi>(p => new V1Api.MmoCatchCertificateCaseApi(p.GetRequiredService<V1Configuration>()))
-            .AddScoped<V1Api.IMmoProcessingStatementApi>(p => new V1Api.MmoProcessingStatementApi(p.GetRequiredService<V1Configuration>()))
-            .AddScoped<V1Api.IMmoStorageDocumentApi>(p => new V1Api.MmoStorageDocumentApi(p.GetRequiredService<V1Configuration>()))
-
             .AddScoped(CreateV2ApiClientConfig)
             .AddScoped<V2Api.IMmoCatchCertificateCaseApi>(p => new V2Api.MmoCatchCertificateCaseApi(p.GetRequiredService<V2Configuration>()))
             .AddScoped<V2Api.IMmoProcessingStatementApi>(p => new V2Api.MmoProcessingStatementApi(p.GetRequiredService<V2Configuration>()))
@@ -111,12 +101,6 @@ public static class ServiceExtensions
     private static IServiceCollection AddMessagePipelines(this IServiceCollection services)
     {
         return services
-            // V1
-            .AddMessagePipeline<V1Inbound.CatchCertificateCaseCreateInbound, StandardMessageHeader, V1Processors.CatchCertificateCaseMessageProcessor>(V1Filter.IsCatchCertificateMessage)
-            .AddMessagePipeline<V1Inbound.ProcessingStatementCreateInbound, StandardMessageHeader, V1Processors.ProcessingStatementMessageProcessor>(V1Filter.IsProcessingStatementMessage)
-            .AddMessagePipeline<V1Inbound.StorageDocumentCreateInbound, StandardMessageHeader, V1Processors.StorageDocumentMessageProcessor>(V1Filter.IsStorageDocumentMessage)
-
-            //V2
             .AddMessagePipeline<V2Inbound.CatchCertificateCaseCreateInbound, StandardMessageHeader, V2Processors.CatchCertificateCaseMessageProcessor>(V2Filter.IsCatchCertificateMessage)
             .AddMessagePipeline<V2Inbound.ProcessingStatementCreateInbound, StandardMessageHeader, V2Processors.ProcessingStatementMessageProcessor>(V2Filter.IsProcessingStatementMessage)
             .AddMessagePipeline<V2Inbound.StorageDocumentCreateInbound, StandardMessageHeader, V2Processors.StorageDocumentMessageProcessor>(V2Filter.IsStorageDocumentMessage);
@@ -126,16 +110,6 @@ public static class ServiceExtensions
     {
         return services.AddValidatorsFromAssemblyContaining<StandardMessageHeader>(lifetime: ServiceLifetime.Singleton)
             .AddValidatorsFromAssemblyContaining<ApimConfiguration>(lifetime: ServiceLifetime.Singleton);
-    }
-
-    private static V1Configuration CreateV1ApiClientConfig(IServiceProvider provider)
-    {
-        var (baseAddress, headers) = GetAuthDetailsAsync(provider).Result;
-        return new()
-        {
-            BasePath = $"{baseAddress}/1-internal",
-            DefaultHeaders = headers
-        };
     }
 
     private static V2Configuration CreateV2ApiClientConfig(IServiceProvider provider)
