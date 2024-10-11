@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
 using Defra.Trade.Events.Services.CatchCertificates.Logic;
+using Defra.Trade.Events.Services.CatchCertificates.Logic.Extensions;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.MessageExecutors;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.ServiceBus;
@@ -33,6 +34,10 @@ public class OnDefraCatchCertificateCreate
     {
         try
         {
+            logger.MessageReceived(
+                message.MessageId,
+                ApplicationConstants.ServiceBus.FunctionName.CatchCertificateCreate);
+
             await _executorFactory
                 .CreateMessageExecutor(message)
                 .ExecuteAsync(message, messageReceiver, executionContext, eventStoreCollector);
