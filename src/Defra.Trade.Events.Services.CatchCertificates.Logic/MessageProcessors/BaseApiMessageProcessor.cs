@@ -10,6 +10,7 @@ using AutoMapper;
 using Defra.Trade.Common.Exceptions;
 using Defra.Trade.Common.Functions.Interfaces;
 using Defra.Trade.Common.Functions.Models;
+using Defra.Trade.Events.Services.CatchCertificates.Logic.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Logic.MessageProcessors;
@@ -54,20 +55,23 @@ public abstract class BaseApiMessageProcessor<TInbound, THeader, TApi, TApiModel
 
     public async Task<StatusResponse<TInbound>> ProcessAsync(TInbound model, THeader messageHeader)
     {
-        string documentId = GetId(model);
-        _logger.LogInformation("Create {EntityType} for {IdName}: {DocumentId}", EntityType, IdName, documentId);
+        string documentNumber = GetId(model);
+        _logger.ProcessorCreate(EntityType, documentNumber);
 
         var apiModel = _mapper.Map<TApiModel>(model);
 
+        _logger.ProcessorSend(EntityType, documentNumber);
         var status = await SendAsync(apiModel);
+        _logger.ProcessorSendSuccess(EntityType, documentNumber);
+
         if (status is < HttpStatusCode.OK or >= HttpStatusCode.BadRequest)
         {
             throw new MessageProcessorException(
                 messageHeader.MessageId ?? string.Empty,
-                $"Failed to create {EntityType} with status code {status} for {IdName} = {documentId}");
+                $"Failed to create {EntityType} with status code {status} for {IdName} = {documentNumber}");
         }
 
-        _logger.LogInformation("{EntityType} for {IdName} {DocumentNumber} is created", EntityType, IdName, documentId);
+        _logger.ProcessorCreateSuccess(EntityType, documentNumber);
 
         return new() { Response = model };
     }
