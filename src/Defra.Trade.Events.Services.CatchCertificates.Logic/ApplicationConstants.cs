@@ -6,7 +6,6 @@ namespace Defra.Trade.Events.Services.CatchCertificates.Logic;
 public static class ApplicationConstants
 {
     public const string ApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
-    public const string ApiVersion1 = "v1-internal";
     public const string ApiVersion2 = "v2-internal";
     public const string AppName = "CatchCertificates";
     public const string AuthorizationHeader = "Authorization";
