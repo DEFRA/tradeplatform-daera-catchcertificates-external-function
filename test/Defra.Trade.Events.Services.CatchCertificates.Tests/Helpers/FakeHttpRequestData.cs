@@ -14,7 +14,7 @@ public class FakeHttpRequestData(
     FunctionContext functionContext,
     Uri url,
 #pragma warning restore CS9113 // Parameter is unread. Used for mocking.
-    Stream? body = null) : HttpRequest
+    Stream body = null) : HttpRequest
 {
 #pragma warning disable CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
     public override string ContentType { get; set; } = string.Empty;
