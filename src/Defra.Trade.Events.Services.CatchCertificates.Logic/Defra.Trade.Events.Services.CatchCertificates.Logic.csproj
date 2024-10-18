@@ -5,8 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Defra.Trade.Common" Version="4.0.2" />
-		<PackageReference Include="Defra.Trade.Common.Functions" Version="4.0.2" />
+    <PackageReference Include="Defra.Trade.Common.Function.Health" Version="4.0.6" />
 		<PackageReference Include="Defra.Trade.Common.Http" Version="2.0.1" />
 		<PackageReference Include="Defra.Trade.Common.Logging" Version="2.0.13" />
 		<PackageReference Include="Defra.Trade.Common.Security" Version="3.0.1" />
