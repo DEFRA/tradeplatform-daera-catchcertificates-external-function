@@ -2,30 +2,17 @@
 // Licensed under the Open Government License v3.0.
 
 using System;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Moq;
 using Shouldly;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Tests.Helpers;
 
 public static class FunctionTestHelpers
 {
-    public static async Task<string> StreamToStringAsync(this Stream stream)
-    {
-        stream.Position = 0;
-        using var reader = new StreamReader(stream);
-        string text = await reader.ReadToEndAsync();
-        return text;
-    }
-
     public static TAttribute MethodHasSingleAttribute<TClass, TAttribute>(string methodName)
         where TClass : class
         where TAttribute : Attribute
@@ -81,22 +68,6 @@ public static class FunctionTestHelpers
         commonEl.Count().ShouldBe(expectedMethods.Length);
     }
 
-    public static Mock<FunctionContext> CreateFunctionContext()
-    {
-        return new Mock<FunctionContext>();
-    }
-
-    public static Mock<HttpRequestData> CreateHttpRequestData(FunctionContext? functionContext = null)
-    {
-        functionContext ??= new Mock<FunctionContext>().Object;
-        return new Mock<HttpRequestData>(functionContext);
-    }
-
-    public static Mock<HttpResponseData> CreateHttpResponseData(FunctionContext? functionContext = null)
-    {
-        functionContext ??= new Mock<FunctionContext>().Object;
-        return new Mock<HttpResponseData>(functionContext);
-    }
 
     private static MethodInfo GetMethodInfo<TClass>(string methodName)
     {

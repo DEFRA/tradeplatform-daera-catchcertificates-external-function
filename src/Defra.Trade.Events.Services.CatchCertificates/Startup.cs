@@ -28,7 +28,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddServiceRegistrations(configuration);
 
         var healthChecksBuilder = builder.Services.AddFunctionHealthChecks();
-        RegisterHealthChecks(healthChecksBuilder, builder.Services, configuration);
+        RegisterHealthChecks(healthChecksBuilder, configuration);
     }
 
     public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
@@ -49,7 +49,6 @@ public class Startup : FunctionsStartup
 
     private static void RegisterHealthChecks(
         IHealthChecksBuilder builder,
-        IServiceCollection services,
         IConfiguration configuration)
     {
         builder.AddCheck<AppSettingHealthCheck>("ServiceBus:ConnectionString");
