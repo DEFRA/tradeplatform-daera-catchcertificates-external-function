@@ -7,7 +7,6 @@ using Defra.Trade.Common.Config;
 using Defra.Trade.Events.Services.CatchCertificates.Infrastructure;
 using Defra.Trade.Events.Services.CatchCertificates.Logic;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.Configuration;
-using FunctionHealthCheck;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
 [assembly: FunctionsStartup(typeof(Defra.Trade.Events.Services.CatchCertificates.Startup))]
@@ -20,8 +19,7 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         var configuration = builder.GetContext().Configuration;
-        var healthChecksBuilder = builder.Services.AddFunctionHealthChecks();
-       
+      
         builder.Services.AddServiceRegistrations(configuration);
     }
 
