@@ -25,7 +25,7 @@ public class ProcessingStatementCreateInbound : IMmoEntity<ExporterInbound>
 
     public string DA { get; set; }
 
-    public DateTime? DocumentDate { get; set; }
+    public DateTime DocumentDate { get; set; }
 
     public string DocumentNumber { get; set; }
 
