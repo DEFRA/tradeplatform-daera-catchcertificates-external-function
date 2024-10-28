@@ -6,6 +6,8 @@ To run this webapp, you will need a ./src/Defra.Trade.Events.Services.CatchCerti
     "Values": {
         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
         "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "FUNCTIONS_INPROC_NET8_ENABLED": "1",
+        "FUNCTIONS_EXTENSION_VERSION": "~4",
         "ServiceBus:ConnectionString": "<secret>",
         "ConfigurationServer:ConnectionString": "<secret>",
         "ConfigurationServer:TenantId": "<secret>"
