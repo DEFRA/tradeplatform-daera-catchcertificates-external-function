@@ -19,7 +19,7 @@ public class DynamicsAddressInbound
 
     [JsonProperty("_defra_country_value")]
     [JsonPropertyName("_defra_country_value")]
-    public string DefraCountryValue { get; set; }
+    public Guid DefraCountryValue { get; set; }
 
     [JsonProperty("_defra_country_value_Microsoft_Dynamics_CRM_associatednavigationproperty")]
     [JsonPropertyName("_defra_country_value_Microsoft_Dynamics_CRM_associatednavigationproperty")]
