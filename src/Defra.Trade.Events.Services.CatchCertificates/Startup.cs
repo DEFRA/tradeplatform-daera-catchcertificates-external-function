@@ -43,8 +43,6 @@ public class Startup : FunctionsStartup
                 opt.Select<ApimConfiguration>(ApimConfiguration.OptionsName);
                 opt.ConfigServer.Select(ApplicationConstants.AppName);
             });
-
-
     }
 
     private static void RegisterHealthChecks(
@@ -52,7 +50,6 @@ public class Startup : FunctionsStartup
         IConfiguration configuration)
     {
         builder.AddCheck<AppSettingHealthCheck>("ServiceBus:ConnectionString");
-        
         builder.AddAzureServiceBusCheck(configuration, "ServiceBus:ConnectionString", ServiceBus.QueueName.CatchCertificatesCreate);
     }
 }
