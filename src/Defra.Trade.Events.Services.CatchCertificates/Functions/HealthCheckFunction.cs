@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Defra.Trade.Common.Function.Health.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Functions;
