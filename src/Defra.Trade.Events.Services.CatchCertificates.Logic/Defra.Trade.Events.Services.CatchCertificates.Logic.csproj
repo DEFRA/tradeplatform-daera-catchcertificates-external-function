@@ -5,11 +5,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+    <PackageReference Include="Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient" Version="1.0.0" />
     <PackageReference Include="Defra.Trade.Common.Function.Health" Version="4.0.6" />
 		<PackageReference Include="Defra.Trade.Common.Http" Version="2.0.1" />
 		<PackageReference Include="Defra.Trade.Common.Logging" Version="2.0.15" />
 		<PackageReference Include="Defra.Trade.Common.Security" Version="3.0.1" />
-		<PackageReference Include="Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient" Version="1.1.4" />
+		<PackageReference Include="Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient" Version="1.1.5" />
 	</ItemGroup>
 
 </Project>
