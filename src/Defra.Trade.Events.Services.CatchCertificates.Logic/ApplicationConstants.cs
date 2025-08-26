@@ -7,6 +7,7 @@ public static class ApplicationConstants
 {
     public const string ApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
     public const string ApiVersion2 = "v2-internal";
+    public const string ApiVersion3 = "v3-internal";
     public const string AppName = "CatchCertificates";
     public const string AuthorizationHeader = "Authorization";
     public const string CatchCertificateSubmittedMessageLabelPrefix = "catch_certificate_submitted";

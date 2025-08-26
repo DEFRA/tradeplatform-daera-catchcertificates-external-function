@@ -27,6 +27,12 @@ using V2Configuration = Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiCli
 using V2Filter = Defra.Trade.Events.Services.CatchCertificates.Logic.V2.MessageFilter;
 using V2Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
 using V2Processors = Defra.Trade.Events.Services.CatchCertificates.Logic.V2.MessageProcessors;
+using V3Api = Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient.Api;
+using V3Configuration = Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient.Client.Configuration;
+using V3Filter = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.MessageFilter;
+using V3Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
+using V3Processors = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.MessageProcessors;
+
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Infrastructure;
 
@@ -53,7 +59,11 @@ public static class ServiceExtensions
             .AddScoped(CreateV2ApiClientConfig)
             .AddScoped<V2Api.IMmoCatchCertificateCaseApi>(p => new V2Api.MmoCatchCertificateCaseApi(p.GetRequiredService<V2Configuration>()))
             .AddScoped<V2Api.IMmoProcessingStatementApi>(p => new V2Api.MmoProcessingStatementApi(p.GetRequiredService<V2Configuration>()))
-            .AddScoped<V2Api.IMmoStorageDocumentApi>(p => new V2Api.MmoStorageDocumentApi(p.GetRequiredService<V2Configuration>()));
+            .AddScoped<V2Api.IMmoStorageDocumentApi>(p => new V2Api.MmoStorageDocumentApi(p.GetRequiredService<V2Configuration>()))
+            .AddScoped(CreateV3ApiClientConfig)
+            .AddScoped<V3Api.IMmoCatchCertificateCaseApi>(p => new V3Api.MmoCatchCertificateCaseApi(p.GetRequiredService<V3Configuration>()))
+            .AddScoped<V3Api.IMmoProcessingStatementApi>(p => new V3Api.MmoProcessingStatementApi(p.GetRequiredService<V3Configuration>()))
+            .AddScoped<V3Api.IMmoStorageDocumentApi>(p => new V3Api.MmoStorageDocumentApi(p.GetRequiredService<V3Configuration>()));
     }
 
     private static IServiceCollection AddConfig(this IServiceCollection services, IConfiguration config)
@@ -103,7 +113,10 @@ public static class ServiceExtensions
         return services
             .AddMessagePipeline<V2Inbound.CatchCertificateCaseCreateInbound, StandardMessageHeader, V2Processors.CatchCertificateCaseMessageProcessor>(V2Filter.IsCatchCertificateMessage)
             .AddMessagePipeline<V2Inbound.ProcessingStatementCreateInbound, StandardMessageHeader, V2Processors.ProcessingStatementMessageProcessor>(V2Filter.IsProcessingStatementMessage)
-            .AddMessagePipeline<V2Inbound.StorageDocumentCreateInbound, StandardMessageHeader, V2Processors.StorageDocumentMessageProcessor>(V2Filter.IsStorageDocumentMessage);
+            .AddMessagePipeline<V2Inbound.StorageDocumentCreateInbound, StandardMessageHeader, V2Processors.StorageDocumentMessageProcessor>(V2Filter.IsStorageDocumentMessage)
+            .AddMessagePipeline<V3Inbound.CatchCertificateCaseCreateInbound, StandardMessageHeader, V3Processors.CatchCertificateCaseMessageProcessor>(V3Filter.IsCatchCertificateMessage)
+            .AddMessagePipeline<V3Inbound.ProcessingStatementCreateInbound, StandardMessageHeader, V3Processors.ProcessingStatementMessageProcessor>(V3Filter.IsProcessingStatementMessage)
+            .AddMessagePipeline<V3Inbound.StorageDocumentCreateInbound, StandardMessageHeader, V3Processors.StorageDocumentMessageProcessor>(V3Filter.IsStorageDocumentMessage);
     }
 
     private static IServiceCollection AddValidators(this IServiceCollection services)
@@ -118,6 +131,16 @@ public static class ServiceExtensions
         return new()
         {
             BasePath = $"{baseAddress}/2-internal",
+            DefaultHeaders = headers
+        };
+    }
+
+    private static V3Configuration CreateV3ApiClientConfig(IServiceProvider provider)
+    {
+        var (baseAddress, headers) = GetAuthDetailsAsync(provider).Result;
+        return new()
+        {
+            BasePath = $"{baseAddress}/3-internal",
             DefaultHeaders = headers
         };
     }

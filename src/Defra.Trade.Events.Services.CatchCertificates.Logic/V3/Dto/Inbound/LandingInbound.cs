@@ -5,7 +5,7 @@ using System;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
+namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
 public class LandingInbound
 {
@@ -29,11 +29,17 @@ public class LandingInbound
     [JsonPropertyName("dateDataReceived")]
     public string DataReceivedDate { get; set; }
 
+    public bool ExclusiveEconomicZones { get; set; }
+
     public string FishingLicenceNumber { get; set; }
 
     public string FishingLicenceValidTo { get; set; }
 
     public string Flag { get; set; }
+
+    public string GearType { get; set; }
+
+    public string HighSeasArea { get; set; }
 
     public string HomePort { get; set; }
 
@@ -59,7 +65,9 @@ public class LandingInbound
 
     public string Presentation { get; set; }
 
-    public V3.Dto.Inbound.RiskInbound Risking { get; set; }
+    public string Rfmo { get; set; }
+
+    public RiskInbound Risking { get; set; }
 
     public string ScientificName { get; set; }
 
@@ -73,11 +81,13 @@ public class LandingInbound
 
     public bool? SpeciesOverriddenByAdmin { get; set; }
 
+    public string StartDate { get; set; }
+
     public string State { get; set; }
 
     public string Status { get; set; }
 
-    public V3.Dto.Inbound.LandingValidationInbound Validation { get; set; }
+    public LandingValidationInbound Validation { get; set; }
 
     public string VesselAdministration { get; set; }
 
