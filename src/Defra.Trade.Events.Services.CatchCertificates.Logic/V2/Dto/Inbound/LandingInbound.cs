@@ -59,7 +59,7 @@ public class LandingInbound
 
     public string Presentation { get; set; }
 
-    public RiskInbound Risking { get; set; }
+    public V3.Dto.Inbound.RiskInbound Risking { get; set; }
 
     public string ScientificName { get; set; }
 
@@ -77,7 +77,7 @@ public class LandingInbound
 
     public string Status { get; set; }
 
-    public LandingValidationInbound Validation { get; set; }
+    public V3.Dto.Inbound.LandingValidationInbound Validation { get; set; }
 
     public string VesselAdministration { get; set; }
 

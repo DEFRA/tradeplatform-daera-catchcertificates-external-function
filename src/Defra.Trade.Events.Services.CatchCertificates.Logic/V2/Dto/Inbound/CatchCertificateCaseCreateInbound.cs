@@ -9,12 +9,12 @@ using Newtonsoft.Json;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
 
-public class CatchCertificateCaseCreateInbound : IMmoEntity<ExporterInbound>
+public class CatchCertificateCaseCreateInbound : IMmoEntity<V3.Dto.Inbound.ExporterInbound>
 {
-    public IEnumerable<AuditInbound> Audits { get; set; }
+    public IEnumerable<V3.Dto.Inbound.AuditInbound> Audits { get; set; }
 
     public string CaseType1 { get; set; }
-
+    
     public string CaseType2 { get; set; }
 
     public string CertStatus { get; set; }
@@ -31,9 +31,9 @@ public class CatchCertificateCaseCreateInbound : IMmoEntity<ExporterInbound>
 
     public string DocumentUrl { get; set; }
 
-    public CountryInbound ExportedTo { get; set; }
+    public V3.Dto.Inbound.CountryInbound ExportedTo { get; set; }
 
-    public ExporterInbound Exporter { get; set; }
+    public V3.Dto.Inbound.ExporterInbound Exporter { get; set; }
 
     public bool? FailureIrrespectiveOfRisk { get; set; }
 
@@ -51,7 +51,7 @@ public class CatchCertificateCaseCreateInbound : IMmoEntity<ExporterInbound>
 
     public bool? SpeciesOverriddenByAdmin { get; set; }
 
-    public TransportationInbound Transportation { get; set; }
+    public V3.Dto.Inbound.TransportationInbound Transportation { get; set; }
 
     public int? Version { get; set; }
 

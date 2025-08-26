@@ -4,6 +4,7 @@
 using Defra.Trade.Events.Services.CatchCertificates.Logic.Validators;
 using FluentValidation;
 using V2Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
+using V3Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Validators;
 
@@ -11,6 +12,6 @@ public class CatchCertificateCreateValidator : AbstractValidator<V2Inbound.Catch
 {
     public CatchCertificateCreateValidator()
     {
-        this.AddMmoEntityValidationRules<V2Inbound.CatchCertificateCaseCreateInbound, V2Inbound.ExporterInbound>();
+        this.AddMmoEntityValidationRules<V2Inbound.CatchCertificateCaseCreateInbound, V3Inbound.ExporterInbound>();
     }
 }
