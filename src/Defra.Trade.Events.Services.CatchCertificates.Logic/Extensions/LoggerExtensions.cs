@@ -30,9 +30,16 @@ public static partial class LoggerExtensions
 
     [LoggerMessage(
         EventId = 12,
-        EventName = nameof(ProcessorSend),
+        EventName = nameof(PerformPreValidation),
         Level = LogLevel.Information,
-        Message = "Sending {EntityType} with document number: {DocumentNumber}")]
+        Message = "Performing additional validation")]
+    public static partial void PerformPreValidation(this ILogger logger);
+
+    [LoggerMessage(
+       EventId = 12,
+       EventName = nameof(ProcessorSend),
+       Level = LogLevel.Information,
+       Message = "Sending {EntityType} with document number: {DocumentNumber}")]
     public static partial void ProcessorSend(this ILogger logger, string entityType, string documentNumber);
 
     [LoggerMessage(

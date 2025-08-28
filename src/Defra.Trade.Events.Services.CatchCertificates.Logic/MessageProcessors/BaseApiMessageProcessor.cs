@@ -53,8 +53,16 @@ public abstract class BaseApiMessageProcessor<TInbound, THeader, TApi, TApiModel
         return Task.FromResult(string.Empty);
     }
 
+    protected virtual void PerformPreValidation(TInbound model)
+    {
+
+    }
+
     public async Task<StatusResponse<TInbound>> ProcessAsync(TInbound model, THeader messageHeader)
     {
+        PerformPreValidation(model);
+        _logger.PerformPreValidation();
+
         string documentNumber = GetId(model);
         _logger.ProcessorCreate(EntityType, documentNumber);
 
