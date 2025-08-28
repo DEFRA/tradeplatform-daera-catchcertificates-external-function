@@ -29,13 +29,6 @@ public static partial class LoggerExtensions
     public static partial void ProcessorCreateSuccess(this ILogger logger, string entityType, string documentNumber);
 
     [LoggerMessage(
-        EventId = 12,
-        EventName = nameof(PerformPreValidation),
-        Level = LogLevel.Information,
-        Message = "Performing additional validation")]
-    public static partial void PerformPreValidation(this ILogger logger);
-
-    [LoggerMessage(
        EventId = 12,
        EventName = nameof(ProcessorSend),
        Level = LogLevel.Information,

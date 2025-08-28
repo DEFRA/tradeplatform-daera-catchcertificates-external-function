@@ -20,6 +20,7 @@ using Shouldly;
 using Xunit;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Tests.Functions;
+
 public class HealthCheckFunctionTests
 {
     private readonly Mock<HealthCheckService> _healthCheckService;

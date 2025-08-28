@@ -33,7 +33,6 @@ using V3Filter = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.MessageF
 using V3Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 using V3Processors = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.MessageProcessors;
 
-
 namespace Defra.Trade.Events.Services.CatchCertificates.Infrastructure;
 
 public static class ServiceExtensions

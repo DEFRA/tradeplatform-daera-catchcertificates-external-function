@@ -68,7 +68,6 @@ public static class FunctionTestHelpers
         commonEl.Count().ShouldBe(expectedMethods.Length);
     }
 
-
     private static MethodInfo GetMethodInfo<TClass>(string methodName)
     {
         return typeof(TClass).GetMethod(methodName)!;

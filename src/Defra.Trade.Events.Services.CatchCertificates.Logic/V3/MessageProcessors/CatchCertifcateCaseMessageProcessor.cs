@@ -2,7 +2,6 @@
 // Licensed under the Open Government License v3.0.
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -12,7 +11,6 @@ using Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 using Microsoft.Extensions.Logging;
 using V3Api = Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient.Api;
 using V3ApiModel = Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient.Model;
-using V3Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3.MessageProcessors;
 
@@ -24,13 +22,6 @@ public class CatchCertificateCaseMessageProcessor(
     protected override string EntityType => "FES Catch Certificate";
 
     protected override string IdName => nameof(CatchCertificateCaseCreateInbound.DocumentNumber);
-
-    //protected override void PerformPreValidation(CatchCertificateCaseCreateInbound model){
-    //    if( model.Landings.Any(l => !l.ExclusiveEconomicZones.HasValue))
-    //    {
-    //        throw new FluentValidation.ValidationException("One or more Landings were missing a value for ExclusiveEconomicZones.");
-    //    }
-    //}
 
     protected override IEnumerable<string> LabelPrefixes { get; } = new[]
     {
