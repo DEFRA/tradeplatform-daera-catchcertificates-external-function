@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Functions.Worker;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Tests.Helpers;
+
 public class FakeHttpRequestData(
 #pragma warning disable CS9113 // Parameter is unread. Used for mocking.
     FunctionContext functionContext,

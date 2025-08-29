@@ -176,6 +176,11 @@ public class FesApiProfileTests
             expected.AdminSpecies = i.AdminSpecies;
             expected.AdminState = i.AdminState;
             expected.AdminPresentation = i.AdminPresentation;
+            expected.ExclusiveEconomicZones = i.ExclusiveEconomicZones;
+            expected.GearType = i.GearType;
+            expected.HighSeasArea = i.HighSeasArea;
+            expected.Rfmo = i.Rfmo;
+            expected.StartDate = i.StartDate;
             return expected;
         }).ToList();
 

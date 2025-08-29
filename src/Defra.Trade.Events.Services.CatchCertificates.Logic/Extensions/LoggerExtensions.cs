@@ -29,10 +29,10 @@ public static partial class LoggerExtensions
     public static partial void ProcessorCreateSuccess(this ILogger logger, string entityType, string documentNumber);
 
     [LoggerMessage(
-        EventId = 12,
-        EventName = nameof(ProcessorSend),
-        Level = LogLevel.Information,
-        Message = "Sending {EntityType} with document number: {DocumentNumber}")]
+       EventId = 12,
+       EventName = nameof(ProcessorSend),
+       Level = LogLevel.Information,
+       Message = "Sending {EntityType} with document number: {DocumentNumber}")]
     public static partial void ProcessorSend(this ILogger logger, string entityType, string documentNumber);
 
     [LoggerMessage(

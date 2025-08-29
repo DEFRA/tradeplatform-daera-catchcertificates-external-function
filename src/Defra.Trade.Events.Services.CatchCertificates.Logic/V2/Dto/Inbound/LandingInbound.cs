@@ -29,11 +29,17 @@ public class LandingInbound
     [JsonPropertyName("dateDataReceived")]
     public string DataReceivedDate { get; set; }
 
+    public bool? ExclusiveEconomicZones { get; set; }
+
     public string FishingLicenceNumber { get; set; }
 
     public string FishingLicenceValidTo { get; set; }
 
     public string Flag { get; set; }
+
+    public string GearType { get; set; }
+
+    public string HighSeasArea { get; set; }
 
     public string HomePort { get; set; }
 
@@ -59,6 +65,8 @@ public class LandingInbound
 
     public string Presentation { get; set; }
 
+    public string Rfmo { get; set; }
+
     public V3.Dto.Inbound.RiskInbound Risking { get; set; }
 
     public string ScientificName { get; set; }
@@ -72,6 +80,8 @@ public class LandingInbound
     public string SpeciesAnomaly { get; set; }
 
     public bool? SpeciesOverriddenByAdmin { get; set; }
+
+    public string StartDate { get; set; }
 
     public string State { get; set; }
 

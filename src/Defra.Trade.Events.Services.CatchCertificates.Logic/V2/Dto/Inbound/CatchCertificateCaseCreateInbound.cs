@@ -14,7 +14,7 @@ public class CatchCertificateCaseCreateInbound : IMmoEntity<V3.Dto.Inbound.Expor
     public IEnumerable<V3.Dto.Inbound.AuditInbound> Audits { get; set; }
 
     public string CaseType1 { get; set; }
-    
+
     public string CaseType2 { get; set; }
 
     public string CertStatus { get; set; }

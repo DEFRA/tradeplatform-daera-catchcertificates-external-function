@@ -93,7 +93,7 @@ public class CatchCertificateCreateValidatorTests
     {
         CatchCertificateCaseCreateInbound catchCertificate = new()
         {
-            Exporter = new ()
+            Exporter = new()
         };
         Validate_Returns_No_ErrorMessage(catchCertificate, "Exporter");
     }
