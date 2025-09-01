@@ -3,12 +3,12 @@
 
 using System;
 using System.Linq;
-using Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
-using Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Validators;
+using Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
+using Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Validators;
 using Shouldly;
 using Xunit;
 
-namespace Defra.Trade.Events.Services.CatchCertificates.Logic.Tests.V2.Validators;
+namespace Defra.Trade.Events.Services.CatchCertificates.Logic.Tests.V3.Validators;
 
 public class CatchCertificateCreateValidatorTests
 {
@@ -93,7 +93,7 @@ public class CatchCertificateCreateValidatorTests
     {
         CatchCertificateCaseCreateInbound catchCertificate = new()
         {
-            Exporter = new()
+            Exporter = new ExporterInbound()
         };
         Validate_Returns_No_ErrorMessage(catchCertificate, "Exporter");
     }

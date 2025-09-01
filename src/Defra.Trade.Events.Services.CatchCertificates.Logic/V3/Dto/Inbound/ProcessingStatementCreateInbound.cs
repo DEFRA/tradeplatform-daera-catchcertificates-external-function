@@ -7,17 +7,17 @@ using System.Text.Json.Serialization;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.Dto;
 using Newtonsoft.Json;
 
-namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
+namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
-public class ProcessingStatementCreateInbound : IMmoEntity<V3.Dto.Inbound.ExporterInbound>
+public class ProcessingStatementCreateInbound : IMmoEntity<ExporterInbound>
 {
-    public V3.Dto.Inbound.AuthorityInbound Authority { get; set; }
+    public AuthorityInbound Authority { get; set; }
 
     public string CaseType1 { get; set; }
 
     public string CaseType2 { get; set; }
 
-    public IEnumerable<V3.Dto.Inbound.CatchInbound> Catches { get; set; }
+    public IEnumerable<CatchInbound> Catches { get; set; }
 
     [JsonProperty("_correlationId")]
     [JsonPropertyName("_correlationId")]
@@ -31,9 +31,9 @@ public class ProcessingStatementCreateInbound : IMmoEntity<V3.Dto.Inbound.Export
 
     public string DocumentUrl { get; set; }
 
-    public V3.Dto.Inbound.CountryInbound ExportedTo { get; set; }
+    public CountryInbound ExportedTo { get; set; }
 
-    public V3.Dto.Inbound.ExporterInbound Exporter { get; set; }
+    public ExporterInbound Exporter { get; set; }
 
     public string ExporterId { get; set; }
 
@@ -45,7 +45,7 @@ public class ProcessingStatementCreateInbound : IMmoEntity<V3.Dto.Inbound.Export
 
     public string PersonResponsible { get; set; }
 
-    public V3.Dto.Inbound.AddressInbound PlantAddress { get; set; }
+    public AddressInbound PlantAddress { get; set; }
 
     public string PlantApprovalNumber { get; set; }
 

@@ -7,11 +7,11 @@ using System.Text.Json.Serialization;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.Dto;
 using Newtonsoft.Json;
 
-namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
+namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
-public class StorageDocumentCreateInbound : IMmoEntity<V3.Dto.Inbound.ExporterInbound>
+public class StorageDocumentCreateInbound : IMmoEntity<ExporterInbound>
 {
-    public V3.Dto.Inbound.AuthorityInbound Authority { get; set; }
+    public AuthorityInbound Authority { get; set; }
 
     public string CaseType1 { get; set; }
 
@@ -31,21 +31,21 @@ public class StorageDocumentCreateInbound : IMmoEntity<V3.Dto.Inbound.ExporterIn
 
     public string DocumentUrl { get; set; }
 
-    public V3.Dto.Inbound.CountryInbound ExportedTo { get; set; }
+    public CountryInbound ExportedTo { get; set; }
 
-    public V3.Dto.Inbound.ExporterInbound Exporter { get; set; }
+    public ExporterInbound Exporter { get; set; }
 
     public string ExporterId { get; set; }
 
     public int? NumberOfFailedSubmissions { get; set; }
 
-    public IEnumerable<V3.Dto.Inbound.ProductInbound> Products { get; set; }
+    public IEnumerable<ProductInbound> Products { get; set; }
 
     public bool? RequestedByAdmin { get; set; }
 
-    public IEnumerable<V3.Dto.Inbound.StorageFacilityInbound> StorageFacilities { get; set; }
+    public IEnumerable<StorageFacilityInbound> StorageFacilities { get; set; }
 
-    public V3.Dto.Inbound.TransportationInbound Transportation { get; set; }
+    public TransportationInbound Transportation { get; set; }
 
     public int? Version { get; set; }
 }

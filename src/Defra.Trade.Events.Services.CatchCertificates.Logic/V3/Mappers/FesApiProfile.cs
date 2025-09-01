@@ -3,50 +3,49 @@
 
 using System;
 using AutoMapper;
-using V2Api = Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient.Model;
-using V2Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
+using V3Api = Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient.Model;
 using V3Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
-namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Mappers;
+namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Mappers;
 
 public class FesApiProfile : Profile
 {
     public FesApiProfile()
     {
-        CreateApiMap<V2Inbound.CatchCertificateCaseCreateInbound, V2Api.CatchCertificateCase>()
+        CreateApiMap<V3Inbound.CatchCertificateCaseCreateInbound, V3Api.CatchCertificateCase>()
             .ForMember(dest => dest.LastUpdated, opt => opt.MapFrom(s => s.DocumentDate))
             .ForMember(dest => dest.LastUpdatedBy, opt => opt.MapFrom(s => ApplicationConstants.FesAppName))
             .ForMember(dest => dest.LastUpdatedSystem, opt => opt.MapFrom(s => ApplicationConstants.FesAppName))
             .ForMember(dest => dest._Version, opt => opt.MapFrom(s => s.Version));
 
-        CreateApiMap<V2Inbound.ProcessingStatementCreateInbound, V2Api.ProcessingStatement>()
+        CreateApiMap<V3Inbound.ProcessingStatementCreateInbound, V3Api.ProcessingStatement>()
             .ForMember(dest => dest.LastUpdated, opt => opt.MapFrom(s => s.DocumentDate))
             .ForMember(dest => dest.LastUpdatedBy, opt => opt.MapFrom(s => ApplicationConstants.FesAppName))
             .ForMember(dest => dest.LastUpdatedSystem, opt => opt.MapFrom(s => ApplicationConstants.FesAppName))
             .ForMember(dest => dest._Version, opt => opt.MapFrom(s => s.Version));
 
-        CreateApiMap<V2Inbound.StorageDocumentCreateInbound, V2Api.StorageDocument>()
+        CreateApiMap<V3Inbound.StorageDocumentCreateInbound, V3Api.StorageDocument>()
             .ForMember(dest => dest.LastUpdated, opt => opt.MapFrom(s => s.DocumentDate))
             .ForMember(dest => dest.LastUpdatedBy, opt => opt.MapFrom(s => ApplicationConstants.FesAppName))
             .ForMember(dest => dest.LastUpdatedSystem, opt => opt.MapFrom(s => ApplicationConstants.FesAppName))
             .ForMember(dest => dest._Version, opt => opt.MapFrom(s => s.Version));
 
-        CreateApiMap<V3Inbound.AddressInbound, V2Api.Address>();
-        CreateApiMap<V3Inbound.AuditInbound, V2Api.Audit>();
-        CreateApiMap<V3Inbound.AuthorityInbound, V2Api.Authority>();
-        CreateApiMap<V3Inbound.CatchInbound, V2Api.Catch>();
-        CreateApiMap<V3Inbound.CatchValidationInbound, V2Api.CatchValidation>();
-        CreateApiMap<V3Inbound.CountryInbound, V2Api.Country>();
-        CreateApiMap<V3Inbound.DynamicsAddressInbound, V2Api.DynamicsAddress>(() => new());
-        CreateApiMap<V3Inbound.ExporterInbound, V2Api.Exporter>();
-        CreateApiMap<V2Inbound.LandingInbound, V2Api.Landing>();
-        CreateApiMap<V3Inbound.LandingValidationInbound, V2Api.LandingValidation>();
-        CreateApiMap<V3Inbound.ProductInbound, V2Api.Product>();
-        CreateApiMap<V3Inbound.ProductValidationInbound, V2Api.ProductValidation>();
-        CreateApiMap<V3Inbound.RiskInbound, V2Api.Risk>(() => new());
-        CreateApiMap<V3Inbound.StorageFacilityInbound, V2Api.StorageFacility>();
-        CreateApiMap<V3Inbound.TransportationInbound, V2Api.Transportation>(() => new());
-        CreateMap<V3Inbound.ModeOfTransportInbound, V2Api.ModeOfTransport>();
+        CreateApiMap<V3Inbound.AddressInbound, V3Api.Address>();
+        CreateApiMap<V3Inbound.AuditInbound, V3Api.Audit>();
+        CreateApiMap<V3Inbound.AuthorityInbound, V3Api.Authority>();
+        CreateApiMap<V3Inbound.CatchInbound, V3Api.Catch>();
+        CreateApiMap<V3Inbound.CatchValidationInbound, V3Api.CatchValidation>();
+        CreateApiMap<V3Inbound.CountryInbound, V3Api.Country>();
+        CreateApiMap<V3Inbound.DynamicsAddressInbound, V3Api.DynamicsAddress>(() => new());
+        CreateApiMap<V3Inbound.ExporterInbound, V3Api.Exporter>();
+        CreateApiMap<V3Inbound.LandingInbound, V3Api.Landing>();
+        CreateApiMap<V3Inbound.LandingValidationInbound, V3Api.LandingValidation>();
+        CreateApiMap<V3Inbound.ProductInbound, V3Api.Product>();
+        CreateApiMap<V3Inbound.ProductValidationInbound, V3Api.ProductValidation>();
+        CreateApiMap<V3Inbound.RiskInbound, V3Api.Risk>(() => new());
+        CreateApiMap<V3Inbound.StorageFacilityInbound, V3Api.StorageFacility>();
+        CreateApiMap<V3Inbound.TransportationInbound, V3Api.Transportation>(() => new());
+        CreateMap<V3Inbound.ModeOfTransportInbound, V3Api.ModeOfTransport>();
     }
 
     private IMappingExpression<TSource, TDestination> CreateApiMap<TSource, TDestination>(Func<TDestination> factory = null)

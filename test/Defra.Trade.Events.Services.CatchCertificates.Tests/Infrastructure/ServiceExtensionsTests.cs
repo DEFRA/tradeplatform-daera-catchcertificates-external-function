@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Xunit;
 using V2Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
+using V3Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Tests.Infrastructure;
 
@@ -68,6 +69,12 @@ public static class ServiceExtensionsTests
     [InlineData("catch_certificate_voided_abcdef", "2", typeof(V2Inbound.CatchCertificateCaseCreateInbound))]
     [InlineData("processing_statement_voided_abcdef", "2", typeof(V2Inbound.ProcessingStatementCreateInbound))]
     [InlineData("storage_document_voided_abcdef", "2", typeof(V2Inbound.StorageDocumentCreateInbound))]
+    [InlineData("catch_certificate_submitted", "3", typeof(V3Inbound.CatchCertificateCaseCreateInbound))]
+    [InlineData("processing_statement_submitted", "3", typeof(V3Inbound.ProcessingStatementCreateInbound))]
+    [InlineData("storage_document_submitted", "3", typeof(V3Inbound.StorageDocumentCreateInbound))]
+    [InlineData("catch_certificate_voided", "3", typeof(V3Inbound.CatchCertificateCaseCreateInbound))]
+    [InlineData("processing_statement_voided", "3", typeof(V3Inbound.ProcessingStatementCreateInbound))]
+    [InlineData("storage_document_voided", "3", typeof(V3Inbound.StorageDocumentCreateInbound))]
     public static void RegistersAFesMessageExecutorFactory_WhichCanHandle(string label, string version, Type messageType)
     {
         // arrange
@@ -94,12 +101,12 @@ public static class ServiceExtensionsTests
     }
 
     [Theory]
-    [InlineData("catch_certificate_submitted", "3")]
-    [InlineData("processing_statement_submitted", "3")]
-    [InlineData("storage_document_submitted", "3")]
-    [InlineData("catch_certificate_voided", "3")]
-    [InlineData("processing_statement_voided", "3")]
-    [InlineData("storage_document_voided", "3")]
+    [InlineData("catch_certificate_submitted", "4")]
+    [InlineData("processing_statement_submitted", "")]
+    [InlineData("storage_document_submitted", "4")]
+    [InlineData("catch_certificate_voided", "4")]
+    [InlineData("processing_statement_voided", "4")]
+    [InlineData("storage_document_voided", "4")]
     [InlineData("abc", null)]
     [InlineData("abc", "1")]
     [InlineData("abc", "2")]

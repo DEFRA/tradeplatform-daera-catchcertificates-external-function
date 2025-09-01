@@ -3,16 +3,15 @@
 
 using Defra.Trade.Events.Services.CatchCertificates.Logic.Validators;
 using FluentValidation;
-using V2Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
 using V3Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
-namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Validators;
+namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Validators;
 
-public class StorageDocumentCreateValidator : AbstractValidator<V2Inbound.StorageDocumentCreateInbound>
+public class StorageDocumentCreateValidator : AbstractValidator<V3Inbound.StorageDocumentCreateInbound>
 {
     public StorageDocumentCreateValidator()
     {
-        this.AddMmoEntityValidationRules<V2Inbound.StorageDocumentCreateInbound, V3Inbound.ExporterInbound>();
+        this.AddMmoEntityValidationRules<V3Inbound.StorageDocumentCreateInbound, V3Inbound.ExporterInbound>();
 
         RuleFor(x => x.CompanyName).NotNull().NotEmpty();
     }

@@ -12,14 +12,15 @@ using Defra.Trade.Events.Services.CatchCertificates.Functions;
 using Defra.Trade.Events.Services.CatchCertificates.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Moq;
 using Shouldly;
 using Xunit;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Tests.Functions;
+
 public class HealthCheckFunctionTests
 {
     private readonly Mock<HealthCheckService> _healthCheckService;

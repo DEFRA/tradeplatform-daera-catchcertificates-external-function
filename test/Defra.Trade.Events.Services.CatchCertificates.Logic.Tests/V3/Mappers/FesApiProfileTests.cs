@@ -6,15 +6,15 @@ using System.Linq;
 using System.Reflection;
 using AutoFixture;
 using AutoMapper;
-using Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient.Model;
-using Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
-using Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Mappers;
+using Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient.Model;
+using Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
+using Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Mappers;
 using FluentAssertions;
 using FluentAssertions.Equivalency;
 using Xunit;
-using Catch_ = Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient.Model.Catch;
+using Catch_ = Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient.Model.Catch;
 
-namespace Defra.Trade.Events.Services.CatchCertificates.Logic.Tests.V2.Mappers;
+namespace Defra.Trade.Events.Services.CatchCertificates.Logic.Tests.V3.Mappers;
 
 public class FesApiProfileTests
 {

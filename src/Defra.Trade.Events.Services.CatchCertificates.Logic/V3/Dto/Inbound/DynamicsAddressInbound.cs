@@ -5,7 +5,7 @@ using System;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
+namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
 public class DynamicsAddressInbound
 {

@@ -5,7 +5,7 @@ using System;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
+namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
 
 public class LandingInbound
 {
@@ -67,7 +67,7 @@ public class LandingInbound
 
     public string Rfmo { get; set; }
 
-    public V3.Dto.Inbound.RiskInbound Risking { get; set; }
+    public RiskInbound Risking { get; set; }
 
     public string ScientificName { get; set; }
 
@@ -87,7 +87,7 @@ public class LandingInbound
 
     public string Status { get; set; }
 
-    public V3.Dto.Inbound.LandingValidationInbound Validation { get; set; }
+    public LandingValidationInbound Validation { get; set; }
 
     public string VesselAdministration { get; set; }
 
