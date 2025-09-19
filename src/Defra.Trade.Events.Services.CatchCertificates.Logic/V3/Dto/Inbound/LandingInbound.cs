@@ -29,7 +29,7 @@ public class LandingInbound
     [JsonPropertyName("dateDataReceived")]
     public string DataReceivedDate { get; set; }
 
-    public bool? ExclusiveEconomicZones { get; set; }
+    public string ExclusiveEconomicZones { get; set; }
 
     public string FishingLicenceNumber { get; set; }
 

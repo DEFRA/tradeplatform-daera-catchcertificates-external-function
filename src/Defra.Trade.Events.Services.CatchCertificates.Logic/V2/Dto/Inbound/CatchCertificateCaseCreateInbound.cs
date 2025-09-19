@@ -41,7 +41,7 @@ public class CatchCertificateCaseCreateInbound : IMmoEntity<V3.Dto.Inbound.Expor
 
     public bool? IsUnblocked { get; set; }
 
-    public IEnumerable<LandingInbound> Landings { get; set; }
+    public IEnumerable<V3.Dto.Inbound.LandingInbound> Landings { get; set; }
 
     public bool? MultiVesselSchedule { get; set; }
 
