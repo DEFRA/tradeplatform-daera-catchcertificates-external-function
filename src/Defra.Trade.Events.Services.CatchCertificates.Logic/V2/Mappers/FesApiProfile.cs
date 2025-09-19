@@ -39,7 +39,7 @@ public class FesApiProfile : Profile
         CreateApiMap<V3Inbound.CountryInbound, V2Api.Country>();
         CreateApiMap<V3Inbound.DynamicsAddressInbound, V2Api.DynamicsAddress>(() => new());
         CreateApiMap<V3Inbound.ExporterInbound, V2Api.Exporter>();
-        CreateApiMap<V2Inbound.LandingInbound, V2Api.Landing>();
+        CreateApiMap<V3Inbound.LandingInbound, V2Api.Landing>();
         CreateApiMap<V3Inbound.LandingValidationInbound, V2Api.LandingValidation>();
         CreateApiMap<V3Inbound.ProductInbound, V2Api.Product>();
         CreateApiMap<V3Inbound.ProductValidationInbound, V2Api.ProductValidation>();
