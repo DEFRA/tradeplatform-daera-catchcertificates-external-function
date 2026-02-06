@@ -20,6 +20,8 @@ public class TransportationInbound
 
     public string FlightNumber { get; set; }
 
+    public string FreightBillNumber { get; set; }
+
     public bool? HasRoadTransportDocument { get; set; }
 
     [JsonProperty("modeofTransport")]

@@ -53,6 +53,8 @@ public class ProcessingStatementCreateInbound : IMmoEntity<ExporterInbound>
 
     public string PlantName { get; set; }
 
+    public string PointOfDestination { get; set; }
+
     public string ProcessedFisheryProducts { get; set; }
 
     public bool? RequestedByAdmin { get; set; }

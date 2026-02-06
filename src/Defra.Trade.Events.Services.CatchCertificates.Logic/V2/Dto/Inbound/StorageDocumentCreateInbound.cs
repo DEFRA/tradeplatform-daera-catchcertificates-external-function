@@ -43,7 +43,7 @@ public class StorageDocumentCreateInbound : IMmoEntity<V3.Dto.Inbound.ExporterIn
 
     public bool? RequestedByAdmin { get; set; }
 
-    public IEnumerable<V3.Dto.Inbound.StorageFacilityInbound> StorageFacilities { get; set; }
+    public V3.Dto.Inbound.StorageFacilityInbound StorageFacility { get; set; }
 
     public V3.Dto.Inbound.TransportationInbound Transportation { get; set; }
 
