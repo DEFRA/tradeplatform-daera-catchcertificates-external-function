@@ -106,6 +106,7 @@ public class FesApiProfileTests
         expected.Transportation.ContainerId = input.Transportation.ContainerId;
         expected.Transportation.Name = input.Transportation.Name;
         expected.Transportation.Flag = input.Transportation.Flag;
+        expected.Transportation.PointOfDestination = input.Transportation.PointOfDestination;
         expected.LastUpdated = input.DocumentDate.Value;
         expected.LastUpdatedBy = "FES";
         expected.LastUpdatedSystem = "FES";
@@ -381,6 +382,7 @@ public class FesApiProfileTests
         expected.ArrivalTransportation.FreightBillNumber = input.ArrivalTransportation.FreightBillNumber;
         expected.ArrivalTransportation.Name = input.ArrivalTransportation.Name;
         expected.ArrivalTransportation.Flag = input.ArrivalTransportation.Flag;
+        expected.ArrivalTransportation.PointOfDestination = input.ArrivalTransportation.PointOfDestination;
         expected.Da = input.DA;
         expected.DocumentNumber = input.DocumentNumber;
         expected.CaseType1 = input.CaseType1;
@@ -467,6 +469,7 @@ public class FesApiProfileTests
         expected.Transportation.FreightBillNumber = input.Transportation.FreightBillNumber;
         expected.Transportation.Name = input.Transportation.Name;
         expected.Transportation.Flag = input.Transportation.Flag;
+        expected.Transportation.PointOfDestination = input.Transportation.PointOfDestination;
         expected._Version = input.Version;
 
         expected.LastUpdatedBy = "FES";
