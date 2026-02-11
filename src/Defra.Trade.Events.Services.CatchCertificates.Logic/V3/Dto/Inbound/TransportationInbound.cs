@@ -33,4 +33,6 @@ public class TransportationInbound
     public string Nationality { get; set; }
 
     public string Registration { get; set; }
+
+    public string PointOfDestination { get; set; }
 }

@@ -50,4 +50,6 @@ public class StorageDocumentCreateInbound : IMmoEntity<ExporterInbound>
     public TransportationInbound Transportation { get; set; }
 
     public int? Version { get; set; }
+
+    public string PointOfDestination { get; set; }
 }
