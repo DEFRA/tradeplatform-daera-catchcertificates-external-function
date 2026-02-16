@@ -93,6 +93,7 @@ public class FesApiProfileTests
         expected.VesselOverriddenByAdmin = input.VesselOverriddenByAdmin;
         expected.SpeciesOverriddenByAdmin = input.SpeciesOverriddenByAdmin;
         expected.MultiVesselSchedule = input.MultiVesselSchedule.Value;
+        expected.PointOfDestination = input.PointOfDestination;
         expected.Transportation.ModeofTransport = (ModeOfTransport?)(int?)input.Transportation.ModeOfTransport;
         expected.Transportation.ExportDate = input.Transportation.ExportDate;
         expected.Transportation.HasRoadTransportDocument = input.Transportation.HasRoadTransportDocument;
@@ -101,13 +102,15 @@ public class FesApiProfileTests
         expected.Transportation.ExportLocation = input.Transportation.ExportLocation;
         expected.Transportation.BillNumber = input.Transportation.BillNumber;
         expected.Transportation.FlightNumber = input.Transportation.FlightNumber;
+        expected.Transportation.FreightBillNumber = input.Transportation.FreightBillNumber;
         expected.Transportation.ContainerId = input.Transportation.ContainerId;
         expected.Transportation.Name = input.Transportation.Name;
         expected.Transportation.Flag = input.Transportation.Flag;
+        expected.Transportation.PointOfDestination = input.Transportation.PointOfDestination;
         expected.LastUpdated = input.DocumentDate.Value;
         expected.LastUpdatedBy = "FES";
         expected.LastUpdatedSystem = "FES";
-        expected.Audits = input.Audits.Select(a =>
+        expected.Audits = [.. input.Audits.Select(a =>
         {
             var expected = Create<Audit>();
             expected.AuditAt = a.AuditAt;
@@ -115,8 +118,8 @@ public class FesApiProfileTests
             expected.InvestigationStatus = a.InvestigationStatus;
             expected.User = a.User;
             return expected;
-        }).ToList();
-        expected.Landings = input.Landings.Select(i =>
+        })];
+        expected.Landings = [.. input.Landings.Select(i =>
         {
             var expected = Create<Landing>();
             expected.Risking = Create<Risk>();
@@ -133,7 +136,7 @@ public class FesApiProfileTests
             expected.Risking.LandingRiskScore = i.Risking.LandingRiskScore;
             expected.Risking.HighOrLowRisk = i.Risking.HighOrLowRisk;
             expected.Risking.IsSpeciesRiskEnabled = i.Risking.IsSpeciesRiskEnabled;
-            expected.Risking.OveruseInfo = i.Risking.OveruseInfo.ToList();
+            expected.Risking.OveruseInfo = [.. i.Risking.OveruseInfo];
             expected.Risking.SpeciesRisk = i.Risking.SpeciesRisk;
             expected.Risking.Vessel = i.Risking.Vessel;
             expected.ScientificName = i.ScientificName;
@@ -182,7 +185,7 @@ public class FesApiProfileTests
             expected.Rfmo = i.Rfmo;
             expected.StartDate = i.StartDate;
             return expected;
-        }).ToList();
+        })];
 
         // act
         var actual = _sut.Map<CatchCertificateCase>(input);
@@ -319,27 +322,30 @@ public class FesApiProfileTests
         expected.PlantAddress.PostCode = input.PlantAddress.PostCode;
         expected.PlantApprovalNumber = input.PlantApprovalNumber;
         expected.PlantDateOfAcceptance = input.PlantDateOfAcceptance;
+        expected.PointOfDestination =   input.PointOfDestination;
         expected._Version = input.Version;
         expected.LastUpdatedBy = "FES";
         expected.LastUpdatedSystem = "FES";
-        expected.Catches = input.Catches.Select(c =>
+        expected.Catches = [.. input.Catches.Select(c =>
         {
             var expected = Create<Catch_>();
             expected.Validation = Create<CatchValidation>();
             expected.ForeignCatchCertificateNumber = c.ForeignCatchCertificateNumber;
             expected.Species = c.Species;
             expected.Id = c.Id;
+            expected.IssuingCountry = c.IssuingCountry;
             expected.ScientificName = c.ScientificName;
             expected.CnCode = c.CnCode;
             expected.ImportedWeight = (double)c.ImportedWeight;
             expected.UsedWeightAgainstCertificate = (double)c.UsedWeightAgainstCertificate;
             expected.ProcessedWeight = (double)c.ProcessedWeight;
+            expected.ProductDescription = c.ProductDescription;
             expected.Validation.Status = c.Validation.Status;
             expected.Validation.TotalUsedWeightAgainstCertificate = (double)c.Validation.TotalUsedWeightAgainstCertificate;
             expected.Validation.WeightExceededAmount = c.Validation.WeightExceededAmount;
             expected.Validation.OveruseInfo = [.. c.Validation.OveruseInfo];
             return expected;
-        }).ToList();
+        })];
 
         // act
         var actual = _sut.Map<ProcessingStatement>(input);
@@ -354,13 +360,29 @@ public class FesApiProfileTests
         // arrange
         var input = _fixture.Create<StorageDocumentCreateInbound>();
         var expected = Create<StorageDocument>();
+        expected.ArrivalTransportation = Create<Transportation>();
         expected.ExportedTo = Create<Country>();
         expected.Exporter = Create<Exporter>();
         expected.Exporter.Address = Create<Address>();
         expected.Exporter.DynamicsAddress = Create<DynamicsAddress>();
         expected.Authority = Create<Authority>();
         expected.Authority.Address = Create<Address>();
+        expected.StorageFacility = Create<StorageFacility>();
+        expected.StorageFacility.Address = Create<Address>();
         expected.Transportation = Create<Transportation>();
+        expected.ArrivalTransportation.ModeofTransport = (ModeOfTransport?)(int?)input.ArrivalTransportation.ModeOfTransport;
+        expected.ArrivalTransportation.ExportDate = input.ArrivalTransportation.ExportDate;
+        expected.ArrivalTransportation.HasRoadTransportDocument = input.ArrivalTransportation.HasRoadTransportDocument;
+        expected.ArrivalTransportation.Nationality = input.ArrivalTransportation.Nationality;
+        expected.ArrivalTransportation.Registration = input.ArrivalTransportation.Registration;
+        expected.ArrivalTransportation.ExportLocation = input.ArrivalTransportation.ExportLocation;
+        expected.ArrivalTransportation.BillNumber = input.ArrivalTransportation.BillNumber;
+        expected.ArrivalTransportation.FlightNumber = input.ArrivalTransportation.FlightNumber;
+        expected.ArrivalTransportation.ContainerId = input.ArrivalTransportation.ContainerId;
+        expected.ArrivalTransportation.FreightBillNumber = input.ArrivalTransportation.FreightBillNumber;
+        expected.ArrivalTransportation.Name = input.ArrivalTransportation.Name;
+        expected.ArrivalTransportation.Flag = input.ArrivalTransportation.Flag;
+        expected.ArrivalTransportation.PointOfDestination = input.ArrivalTransportation.PointOfDestination;
         expected.Da = input.DA;
         expected.DocumentNumber = input.DocumentNumber;
         expected.CaseType1 = input.CaseType1;
@@ -422,6 +444,19 @@ public class FesApiProfileTests
         expected.Authority.Email = input.Authority.Email;
         expected.Authority.Name = input.Authority.Name;
         expected.Authority.Tel = input.Authority.Tel;
+        expected.StorageFacility.Address.Line1 = input.StorageFacility.Address.Line1;
+        expected.StorageFacility.Address.SubBuildingName = input.StorageFacility.Address.SubBuildingName;
+        expected.StorageFacility.Address.BuildingNumber = input.StorageFacility.Address.BuildingNumber;
+        expected.StorageFacility.Address.BuildingName = input.StorageFacility.Address.BuildingName;
+        expected.StorageFacility.Address.StreetName = input.StorageFacility.Address.StreetName;
+        expected.StorageFacility.Address.County = input.StorageFacility.Address.County;
+        expected.StorageFacility.Address.Country = input.StorageFacility.Address.Country;
+        expected.StorageFacility.Address.City = input.StorageFacility.Address.City;
+        expected.StorageFacility.Address.PostCode = input.StorageFacility.Address.PostCode;
+        expected.StorageFacility.Name = input.StorageFacility.Name;
+        expected.StorageFacility.ApprovalNumber = input.StorageFacility.ApprovalNumber;
+        expected.StorageFacility.DateOfUnloading = input.StorageFacility.DateOfUnloading;
+        expected.StorageFacility.ProductHandling = input.StorageFacility.ProductHandling;
         expected.Transportation.ModeofTransport = (ModeOfTransport?)(int?)input.Transportation.ModeOfTransport;
         expected.Transportation.ExportDate = input.Transportation.ExportDate;
         expected.Transportation.HasRoadTransportDocument = input.Transportation.HasRoadTransportDocument;
@@ -431,13 +466,15 @@ public class FesApiProfileTests
         expected.Transportation.BillNumber = input.Transportation.BillNumber;
         expected.Transportation.FlightNumber = input.Transportation.FlightNumber;
         expected.Transportation.ContainerId = input.Transportation.ContainerId;
+        expected.Transportation.FreightBillNumber = input.Transportation.FreightBillNumber;
         expected.Transportation.Name = input.Transportation.Name;
         expected.Transportation.Flag = input.Transportation.Flag;
+        expected.Transportation.PointOfDestination = input.Transportation.PointOfDestination;
         expected._Version = input.Version;
 
         expected.LastUpdatedBy = "FES";
         expected.LastUpdatedSystem = "FES";
-        expected.Products = input.Products.Select(c =>
+        expected.Products = [.. input.Products.Select(c =>
         {
             var expected = Create<Product>();
             expected.Validation = Create<ProductValidation>();
@@ -447,32 +484,18 @@ public class FesApiProfileTests
             expected.ScientificName = c.ScientificName;
             expected.CnCode = c.CnCode;
             expected.ImportedWeight = (double)c.ImportedWeight;
+            expected.IssuingCountry = c.IssuingCountry;
+            expected.NetWeightFisheryProductArrival = c.NetWeightFisheryProductArrival;
+            expected.NetWeightFisheryProductDeparture = c.NetWeightFisheryProductDeparture;
+            expected.NetWeightProductArrival = c.NetWeightProductArrival;
+            expected.NetWeightProductDeparture = c.NetWeightProductDeparture;
             expected.ExportedWeight = (double)c.ExportedWeight;
             expected.Validation.Status = c.Validation.Status;
             expected.Validation.WeightExceededAmount = c.Validation.WeightExceededAmount;
             expected.Validation.TotalWeightExported = (double)c.Validation.TotalWeightExported;
-            expected.Validation.OveruseInfo = c.Validation.OveruseInfo.ToList();
-            expected.DateOfUnloading = c.DateOfUnloading;
-            expected.PlaceOfUnloading = c.PlaceOfUnloading;
-            expected.TransportUnloadedFrom = c.TransportUnloadedFrom;
+            expected.Validation.OveruseInfo = [.. c.Validation.OveruseInfo];
             return expected;
-        }).ToList();
-        expected.StorageFacilities = input.StorageFacilities.Select(c =>
-        {
-            var expected = Create<StorageFacility>();
-            expected.Address = Create<Address>();
-            expected.Address.Line1 = c.Address.Line1;
-            expected.Address.SubBuildingName = c.Address.SubBuildingName;
-            expected.Address.BuildingNumber = c.Address.BuildingNumber;
-            expected.Address.BuildingName = c.Address.BuildingName;
-            expected.Address.StreetName = c.Address.StreetName;
-            expected.Address.County = c.Address.County;
-            expected.Address.Country = c.Address.Country;
-            expected.Address.City = c.Address.City;
-            expected.Address.PostCode = c.Address.PostCode;
-            expected.Name = c.Name;
-            return expected;
-        }).ToList();
+        })];
 
         // act
         var actual = _sut.Map<StorageDocument>(input);
@@ -497,6 +520,6 @@ public class FesApiProfileTests
         var ctor = Array.Find(ctors, c => c.GetParameters().Length == 0) ?? Array.Find(ctors, c => Array.TrueForAll(c.GetParameters(), p => p.HasDefaultValue));
         return ctor == null
             ? throw new MissingMethodException($"Failed to create {typeof(T)} Cannot find a constructor which can be called with no arguments")
-            : (T)ctor.Invoke(ctor.GetParameters().Select(p => p.DefaultValue).ToArray());
+            : (T)ctor.Invoke([.. ctor.GetParameters().Select(p => p.DefaultValue)]);
     }
 }

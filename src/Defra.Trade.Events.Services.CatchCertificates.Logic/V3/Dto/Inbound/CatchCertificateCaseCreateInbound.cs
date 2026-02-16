@@ -47,6 +47,8 @@ public class CatchCertificateCaseCreateInbound : IMmoEntity<ExporterInbound>
 
     public int? NumberOfFailedSubmissions { get; set; }
 
+    public string PointOfDestination { get; set; }
+
     public bool? RequestedByAdmin { get; set; }
 
     public bool? SpeciesOverriddenByAdmin { get; set; }

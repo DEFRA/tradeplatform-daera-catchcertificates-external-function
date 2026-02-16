@@ -13,7 +13,11 @@ public class CatchInbound
 
     public double? ImportedWeight { get; set; }
 
+    public string IssuingCountry { get; set; }
+
     public double? ProcessedWeight { get; set; }
+
+    public string ProductDescription { get; set; }
 
     public string ScientificName { get; set; }
 

@@ -20,6 +20,8 @@ public class TransportationInbound
 
     public string FlightNumber { get; set; }
 
+    public string FreightBillNumber { get; set; }
+
     public bool? HasRoadTransportDocument { get; set; }
 
     [JsonProperty("modeofTransport")]
@@ -31,4 +33,6 @@ public class TransportationInbound
     public string Nationality { get; set; }
 
     public string Registration { get; set; }
+
+    public string PointOfDestination { get; set; }
 }

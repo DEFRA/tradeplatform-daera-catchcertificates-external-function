@@ -7,8 +7,6 @@ public class ProductInbound
 {
     public string CnCode { get; set; }
 
-    public string DateOfUnloading { get; set; }
-
     public double? ExportedWeight { get; set; }
 
     public string ForeignCatchCertificateNumber { get; set; }
@@ -17,13 +15,25 @@ public class ProductInbound
 
     public double? ImportedWeight { get; set; }
 
-    public string PlaceOfUnloading { get; set; }
+    public string IssuingCountry { get; set; }
+
+    public string NetWeightProductArrival { get; set; }
+
+    public string NetWeightFisheryProductArrival { get; set; }
+
+    public string NetWeightProductDeparture { get; set; }
+
+    public string NetWeightFisheryProductDeparture { get; set; }
+
+    public string PointOfDestination { get; set; }
+
+    public string ProductDescription { get; set; }
 
     public string ScientificName { get; set; }
 
     public string Species { get; set; }
 
-    public string TransportUnloadedFrom { get; set; }
+    public string SupportingDocuments { get; set; }
 
     public ProductValidationInbound Validation { get; set; }
 }
