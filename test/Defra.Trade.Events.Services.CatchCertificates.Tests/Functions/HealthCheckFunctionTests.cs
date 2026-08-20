@@ -12,8 +12,6 @@ using Defra.Trade.Events.Services.CatchCertificates.Functions;
 using Defra.Trade.Events.Services.CatchCertificates.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Moq;
 using Shouldly;
@@ -36,7 +34,7 @@ public class HealthCheckFunctionTests
     public void RunAsync_HasFunctionAttribute()
     {
         // Arrange & Act
-        var attribute = FunctionTestHelpers.MethodHasSingleAttribute<HealthCheckFunction, FunctionNameAttribute>(
+        var attribute = FunctionTestHelpers.MethodHasSingleAttribute<HealthCheckFunction, FunctionAttribute>(
             nameof(HealthCheckFunction.RunAsync));
 
         // Assert

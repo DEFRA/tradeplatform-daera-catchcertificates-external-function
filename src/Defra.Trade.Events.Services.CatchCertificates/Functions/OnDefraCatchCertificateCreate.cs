@@ -7,8 +7,7 @@ using Azure.Messaging.ServiceBus;
 using Defra.Trade.Events.Services.CatchCertificates.Logic;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.Extensions;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.MessageExecutors;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.ServiceBus;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Functions;
@@ -16,35 +15,40 @@ namespace Defra.Trade.Events.Services.CatchCertificates.Functions;
 public class OnDefraCatchCertificateCreate
 {
     private readonly IFesMessageExecutorFactory _executorFactory;
+    private readonly ILogger<OnDefraCatchCertificateCreate> _logger;
+    private readonly ServiceBusClient _serviceBusClient;
 
-    public OnDefraCatchCertificateCreate(IFesMessageExecutorFactory executorFactory)
+    public OnDefraCatchCertificateCreate(IFesMessageExecutorFactory executorFactory, ILogger<OnDefraCatchCertificateCreate> logger, ServiceBusClient serviceBusClient)
     {
         ArgumentNullException.ThrowIfNull(executorFactory);
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(serviceBusClient);
         _executorFactory = executorFactory;
+        _logger = logger;
+        _serviceBusClient = serviceBusClient;
     }
 
-    [ServiceBusAccount(ApplicationConstants.ServiceBus.ConnectionStringConfigurationKey)]
-    [FunctionName(ApplicationConstants.ServiceBus.FunctionName.CatchCertificateCreate)]
+    [Function(ApplicationConstants.ServiceBus.FunctionName.CatchCertificateCreate)]
     public async Task RunAsync(
-        [ServiceBusTrigger(ApplicationConstants.ServiceBus.QueueName.CatchCertificatesCreate)] ServiceBusReceivedMessage message,
+        [ServiceBusTrigger(ApplicationConstants.ServiceBus.QueueName.CatchCertificatesCreate, Connection = ApplicationConstants.ServiceBus.ConnectionStringConfigurationKey)] ServiceBusReceivedMessage message,
         ServiceBusMessageActions messageReceiver,
-        ExecutionContext executionContext,
-        [ServiceBus(ApplicationConstants.ServiceBus.QueueName.DefraTradeEventsInfo)] IAsyncCollector<ServiceBusMessage> eventStoreCollector,
-        ILogger logger)
+        FunctionContext executionContext)
     {
         try
         {
-            logger.MessageReceived(
+            _logger.MessageReceived(
                 message.MessageId,
                 ApplicationConstants.ServiceBus.FunctionName.CatchCertificateCreate);
 
+            await using var eventStoreSender = _serviceBusClient.CreateSender(ApplicationConstants.ServiceBus.QueueName.DefraTradeEventsInfo);
+
             await _executorFactory
                 .CreateMessageExecutor(message)
-                .ExecuteAsync(message, messageReceiver, executionContext, eventStoreCollector);
+                .ExecuteAsync(message, messageReceiver, executionContext, eventStoreSender);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, ex.Message);
+            _logger.LogError(ex, ex.Message);
         }
     }
 }

@@ -457,22 +457,6 @@ public class FesApiProfileTests
             expected.TransportUnloadedFrom = c.TransportUnloadedFrom;
             return expected;
         }).ToList();
-        expected.StorageFacilities = input.StorageFacilities.Select(c =>
-        {
-            var expected = Create<StorageFacility>();
-            expected.Address = Create<Address>();
-            expected.Address.Line1 = c.Address.Line1;
-            expected.Address.SubBuildingName = c.Address.SubBuildingName;
-            expected.Address.BuildingNumber = c.Address.BuildingNumber;
-            expected.Address.BuildingName = c.Address.BuildingName;
-            expected.Address.StreetName = c.Address.StreetName;
-            expected.Address.County = c.Address.County;
-            expected.Address.Country = c.Address.Country;
-            expected.Address.City = c.Address.City;
-            expected.Address.PostCode = c.Address.PostCode;
-            expected.Name = c.Name;
-            return expected;
-        }).ToList();
 
         // act
         var actual = _sut.Map<StorageDocument>(input);

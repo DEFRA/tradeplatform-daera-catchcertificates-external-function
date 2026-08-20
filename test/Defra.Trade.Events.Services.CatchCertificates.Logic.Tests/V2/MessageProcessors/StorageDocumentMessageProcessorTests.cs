@@ -9,7 +9,7 @@ using AutoMapper;
 using Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient.Api;
 using Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient.Client;
 using Defra.Trade.Common.Exceptions;
-using Defra.Trade.Common.Functions.Models;
+using Defra.Trade.Common.Functions.Isolated.Models;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Mappers;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.V2.MessageProcessors;
@@ -42,7 +42,7 @@ public class StorageDocumentMessageProcessorTests
     public async Task GetSchema_Default_EmptyString()
     {
         // Arrange
-        var header = new StandardMessageHeader();
+        var header = new TradeEventMessageHeader();
         var sut = CreateSut();
 
         // Act
@@ -57,7 +57,7 @@ public class StorageDocumentMessageProcessorTests
     {
         // Arrange
         var inboundModel = new Fixture().Create<StorageDocumentCreateInbound>();
-        var messageHeader = new StandardMessageHeader();
+        var messageHeader = new TradeEventMessageHeader();
 
         _apiClient
             .Setup(c =>
@@ -79,7 +79,7 @@ public class StorageDocumentMessageProcessorTests
     {
         // Arrange
         var inboundModel = new Fixture().Create<StorageDocumentCreateInbound>();
-        var messageHeader = new StandardMessageHeader();
+        var messageHeader = new TradeEventMessageHeader();
 
         _apiClient
             .Setup(c =>
@@ -112,7 +112,7 @@ public class StorageDocumentMessageProcessorTests
     {
         // Arrange
         var inboundModel = new Fixture().Create<StorageDocumentCreateInbound>();
-        var messageHeader = new StandardMessageHeader();
+        var messageHeader = new TradeEventMessageHeader();
         inboundModel.Version = null;
 
         _apiClient
@@ -153,7 +153,7 @@ public class StorageDocumentMessageProcessorTests
     public async Task ValidateMessageLabel_NotProvided_False(string label, bool expectedResult)
     {
         // Arrange
-        var messageHeader = new StandardMessageHeader { Label = label };
+        var messageHeader = new TradeEventMessageHeader { Label = label };
         var sut = CreateSut();
 
         // Act

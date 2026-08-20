@@ -42,7 +42,7 @@ public static class ApplicationConstants
         public static class QueueName
         {
             public const string CatchCertificatesCreate = "defra.trade.catch.create";
-            public const string DefraTradeEventsInfo = Common.Functions.Constants.QueueName.DefaultEventsInfoQueueName;
+            public const string DefraTradeEventsInfo = "defra.trade.events.info";
         }
     }
 }

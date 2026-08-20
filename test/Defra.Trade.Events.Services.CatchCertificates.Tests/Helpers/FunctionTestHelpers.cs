@@ -5,8 +5,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
 using Shouldly;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Tests.Helpers;

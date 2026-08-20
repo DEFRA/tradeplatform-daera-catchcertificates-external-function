@@ -1,11 +1,11 @@
-﻿// Copyright DEFRA (c). All rights reserved.
+// Copyright DEFRA (c). All rights reserved.
 // Licensed under the Open Government License v3.0.
 
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using Defra.Trade.Common.Functions.Models;
+using Defra.Trade.Common.Functions.Isolated.Models;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.MessageProcessors;
 using Microsoft.Extensions.Logging;
 using V3Api = Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient.Api;
@@ -17,7 +17,7 @@ namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3.MessageProcesso
 public class StorageDocumentMessageProcessor(
     V3Api.IMmoStorageDocumentApi apiClient,
     ILogger<StorageDocumentMessageProcessor> logger,
-    IMapper mapper) : BaseApiMessageProcessor<V3Inbound.StorageDocumentCreateInbound, StandardMessageHeader, V3Api.IMmoStorageDocumentApi, V3ApiModel.StorageDocument>(apiClient, logger, mapper)
+    IMapper mapper) : BaseApiMessageProcessor<V3Inbound.StorageDocumentCreateInbound, TradeEventMessageHeader, V3Api.IMmoStorageDocumentApi, V3ApiModel.StorageDocument>(apiClient, logger, mapper)
 {
     protected override string EntityType => "FES Storage Document";
 

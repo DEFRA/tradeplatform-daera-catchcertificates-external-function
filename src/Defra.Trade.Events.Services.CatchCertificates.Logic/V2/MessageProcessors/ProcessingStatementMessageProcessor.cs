@@ -1,11 +1,11 @@
-﻿// Copyright DEFRA (c). All rights reserved.
+// Copyright DEFRA (c). All rights reserved.
 // Licensed under the Open Government License v3.0.
 
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using Defra.Trade.Common.Functions.Models;
+using Defra.Trade.Common.Functions.Isolated.Models;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.MessageProcessors;
 using Microsoft.Extensions.Logging;
 using V2Api = Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient.Api;
@@ -17,7 +17,7 @@ namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V2.MessageProcesso
 public class ProcessingStatementMessageProcessor(
     V2Api.IMmoProcessingStatementApi apiClient,
     ILogger<ProcessingStatementMessageProcessor> logger,
-    IMapper mapper) : BaseApiMessageProcessor<V2Inbound.ProcessingStatementCreateInbound, StandardMessageHeader, V2Api.IMmoProcessingStatementApi, V2ApiModel.ProcessingStatement>(apiClient, logger, mapper)
+    IMapper mapper) : BaseApiMessageProcessor<V2Inbound.ProcessingStatementCreateInbound, TradeEventMessageHeader, V2Api.IMmoProcessingStatementApi, V2ApiModel.ProcessingStatement>(apiClient, logger, mapper)
 {
     protected override string EntityType => "FES Processing Statement";
 

@@ -1,16 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-	</PropertyGroup>
+                <TargetFramework>net10.0</TargetFramework>
+        </PropertyGroup>
 
-	<ItemGroup>
-    <PackageReference Include="Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient" Version="1.0.5" />
-    <PackageReference Include="Defra.Trade.Common.Function.Health" Version="4.0.6" />
-		<PackageReference Include="Defra.Trade.Common.Http" Version="2.0.1" />
-		<PackageReference Include="Defra.Trade.Common.Logging" Version="2.0.15" />
-		<PackageReference Include="Defra.Trade.Common.Security" Version="3.0.1" />
-		<PackageReference Include="Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient" Version="1.1.6" />
-	</ItemGroup>
+        <ItemGroup>
+                <PackageReference Include="Defra.Trade.Catch.Certificate.Internal.V3INTERNAL.ApiClient" Version="1.1.8" />
+                <PackageReference Include="Defra.Trade.Common.Function.Health" Version="4.1.4" />
+                <PackageReference Include="Defra.Trade.Common.Functions.Isolated" Version="2.0.6" />
+                <PackageReference Include="Defra.Trade.Common.Http" Version="2.0.3" />
+                <PackageReference Include="Defra.Trade.Common.Logging" Version="3.0.1" />
+                <PackageReference Include="Defra.Trade.Common.Security" Version="4.0.3" />
+                <PackageReference Include="Defra.Trade.Catch.Certificate.Internal.V2INTERNAL.ApiClient" Version="1.1.8" />
+        </ItemGroup>
 
 </Project>

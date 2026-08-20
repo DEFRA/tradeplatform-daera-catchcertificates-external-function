@@ -8,7 +8,8 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
-using Defra.Trade.Common.Functions;
+using Defra.Trade.Common.Functions.Isolated;
+using Defra.Trade.Common.Functions.Isolated.Interfaces;
 using Defra.Trade.Common.Security.Authentication.Interfaces;
 using Defra.Trade.Events.Services.CatchCertificates.Infrastructure;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.MessageExecutors;
@@ -31,7 +32,12 @@ public static class ServiceExtensionsTests
         var services = new ServiceCollection();
         var configBuilder = new ConfigurationBuilder();
 
-        var config = configBuilder.Build();
+        var config = configBuilder
+            .AddInMemoryCollection(new Dictionary<string, string>
+            {
+                ["ServiceBus:ConnectionString"] = "Endpoint=sb://fake.servicebus.windows.net/;SharedAccessKeyName=Root;SharedAccessKey=ZmFrZWtleQ=="
+            })
+            .Build();
 
         services.AddLogging();
         services.AddSingleton<IConfiguration>(config);
@@ -85,7 +91,12 @@ public static class ServiceExtensionsTests
             ["SchemaVersion"] = version
         });
 
-        var config = configBuilder.Build();
+        var config = configBuilder
+            .AddInMemoryCollection(new Dictionary<string, string>
+            {
+                ["ServiceBus:ConnectionString"] = "Endpoint=sb://fake.servicebus.windows.net/;SharedAccessKeyName=Root;SharedAccessKey=ZmFrZWtleQ=="
+            })
+            .Build();
 
         services.AddLogging();
         services.AddSingleton<IConfiguration>(config);
@@ -120,7 +131,12 @@ public static class ServiceExtensionsTests
             ["SchemaVersion"] = version
         });
 
-        var config = configBuilder.Build();
+        var config = configBuilder
+            .AddInMemoryCollection(new Dictionary<string, string>
+            {
+                ["ServiceBus:ConnectionString"] = "Endpoint=sb://fake.servicebus.windows.net/;SharedAccessKeyName=Root;SharedAccessKey=ZmFrZWtleQ=="
+            })
+            .Build();
 
         services.AddLogging();
         services.AddSingleton<IConfiguration>(config);
@@ -144,3 +160,4 @@ public static class ServiceExtensionsTests
         }
     }
 }
+
