@@ -1,15 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<AzureFunctionsVersion>v4</AzureFunctionsVersion>
+		<OutputType>Exe</OutputType>
 		<UserSecretsId>a744875d-e6b3-43bb-8ff3-f4095989af23</UserSecretsId>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Azure.ResourceManager" Version="1.13.0" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
-		<PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.1" />
-		<PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.5.0" />
+		<PackageReference Include="Azure.ResourceManager" Version="1.14.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.52.0" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.1" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ServiceBus" Version="5.24.0" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.1.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Defra.Trade.Events.Services.CatchCertificates.Logic\Defra.Trade.Events.Services.CatchCertificates.Logic.csproj" />
@@ -18,14 +20,10 @@
 		<None Update="host.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="local.settings.json">
+		<None Update="local.settings.example.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<FunctionsPreservedDependencies Include="Microsoft.Extensions.DependencyModel.dll" Visible="false" />
 	</ItemGroup>
 
 </Project>

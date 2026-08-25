@@ -4,10 +4,9 @@
 using System;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
-using Defra.Trade.Common.Functions;
-using Defra.Trade.Common.Functions.Extensions;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.ServiceBus;
+using Defra.Trade.Common.Functions.Isolated;
+using Defra.Trade.Common.Functions.Isolated.Interfaces;
+using Microsoft.Azure.Functions.Worker;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Logic.MessageExecutors;
 
@@ -22,17 +21,17 @@ public class FesMessageExecutor<T> : IFesMessageExecutor
     }
 
     public async Task ExecuteAsync(ServiceBusReceivedMessage message, ServiceBusMessageActions messageReceiver,
-        ExecutionContext executionContext, IAsyncCollector<ServiceBusMessage> eventStoreCollector)
+        FunctionContext executionContext, ServiceBusSender eventStoreSender)
     {
         await _messageProcessor.ProcessAsync(
-            executionContext.InvocationId.ToString(),
+            executionContext.InvocationId,
             ApplicationConstants.ServiceBus.QueueName.CatchCertificatesCreate,
             ApplicationConstants.AppName,
             message,
             messageReceiver,
-            eventStoreCollector,
+            eventStoreSender,
             originalCrmPublisherId: ApplicationConstants.FesAppName,
-            originalSource: message.Label(),
+            originalSource: message.Subject,
             originalRequestName: "Create");
     }
 }

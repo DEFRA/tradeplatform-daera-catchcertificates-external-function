@@ -7,6 +7,8 @@
         "FUNCTIONS_EXTENSION_VERSION": "~4",
         "ServiceBus:ConnectionString": "<secret>",
         "ConfigurationServer:ConnectionString": "<secret>",
-        "ConfigurationServer:TenantId": "<secret>"
+        "ConfigurationServer:TenantId": "<secret>",
+        "ApimSettings__Authority": "api://dev-futuretrade-int.defra.gov.uk",
+        "MmoApiConfig__BaseAddress": "https://dev-internal-gateway.trade.azure.defra.cloud/trade-catch-certificate-internal"
     }
 }
