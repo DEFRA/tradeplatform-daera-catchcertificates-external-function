@@ -56,7 +56,7 @@ public static class ServiceExtensions
             var cs = config.GetValue<string>("ServiceBus:ConnectionString");
             return new ServiceBusClient(cs);
 #else
-            var ns = config.GetValue<string>("ServiceBus");
+            var ns = config.GetValue<string>("ServiceBusFQN");
             return new ServiceBusClient(ns, new Azure.Identity.DefaultAzureCredential());
 #endif
         });
