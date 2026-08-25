@@ -478,11 +478,8 @@ public class FesApiProfileTests
             expected.Validation.WeightExceededAmount = c.Validation.WeightExceededAmount;
             expected.Validation.TotalWeightExported = (double)c.Validation.TotalWeightExported;
             expected.Validation.OveruseInfo = [.. c.Validation.OveruseInfo];
-            expected.DateOfUnloading = c.DateOfUnloading;
-            expected.PlaceOfUnloading = c.PlaceOfUnloading;
-            expected.TransportUnloadedFrom = c.TransportUnloadedFrom;
             return expected;
-        }).ToList();
+        })];
 
         // act
         var actual = _sut.Map<StorageDocument>(input);
