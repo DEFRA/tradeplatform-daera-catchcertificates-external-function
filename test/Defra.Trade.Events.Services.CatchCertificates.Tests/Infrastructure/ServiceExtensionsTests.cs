@@ -17,6 +17,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Moq;
 using Xunit;
 using V2Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V2.Dto.Inbound;
 using V3Inbound = Defra.Trade.Events.Services.CatchCertificates.Logic.V3.Dto.Inbound;
@@ -30,14 +31,7 @@ public static class ServiceExtensionsTests
     {
         // arrange
         var services = new ServiceCollection();
-        var configBuilder = new ConfigurationBuilder();
-
-        var config = configBuilder
-            .AddInMemoryCollection(new Dictionary<string, string>
-            {
-                ["ServiceBus:ConnectionString"] = "Endpoint=sb://fake.servicebus.windows.net/;SharedAccessKeyName=Root;SharedAccessKey=ZmFrZWtleQ=="
-            })
-            .Build();
+        var config = BuildTestConfiguration();
 
         services.AddLogging();
         services.AddSingleton<IConfiguration>(config);
@@ -48,6 +42,7 @@ public static class ServiceExtensionsTests
         // assert
         services.Should().Contain(d => d.ServiceType == typeof(IAuthenticationService));
         services.Replace(new(typeof(IAuthenticationService), typeof(DummyAuth), ServiceLifetime.Singleton));
+        ReplaceServiceBusClientWithTestDouble(services);
         var provider = services.BuildServiceProvider(new ServiceProviderOptions()
         {
             ValidateOnBuild = true,
@@ -85,18 +80,12 @@ public static class ServiceExtensionsTests
     {
         // arrange
         var services = new ServiceCollection();
-        var configBuilder = new ConfigurationBuilder();
         var message = ServiceBusModelFactory.ServiceBusReceivedMessage(subject: label, properties: new Dictionary<string, object>
         {
             ["SchemaVersion"] = version
         });
 
-        var config = configBuilder
-            .AddInMemoryCollection(new Dictionary<string, string>
-            {
-                ["ServiceBus:ConnectionString"] = "Endpoint=sb://fake.servicebus.windows.net/;SharedAccessKeyName=Root;SharedAccessKey=ZmFrZWtleQ=="
-            })
-            .Build();
+        var config = BuildTestConfiguration();
 
         services.AddLogging();
         services.AddSingleton<IConfiguration>(config);
@@ -104,6 +93,7 @@ public static class ServiceExtensionsTests
         // act
         services.AddServiceRegistrations(config);
         services.Replace(new(typeof(IAuthenticationService), typeof(DummyAuth), ServiceLifetime.Singleton));
+        ReplaceServiceBusClientWithTestDouble(services);
         var provider = services.BuildServiceProvider();
         var factory = provider.GetRequiredService<IFesMessageExecutorFactory>();
 
@@ -125,18 +115,12 @@ public static class ServiceExtensionsTests
     {
         // arrange
         var services = new ServiceCollection();
-        var configBuilder = new ConfigurationBuilder();
         var message = ServiceBusModelFactory.ServiceBusReceivedMessage(subject: label, properties: new Dictionary<string, object>
         {
             ["SchemaVersion"] = version
         });
 
-        var config = configBuilder
-            .AddInMemoryCollection(new Dictionary<string, string>
-            {
-                ["ServiceBus:ConnectionString"] = "Endpoint=sb://fake.servicebus.windows.net/;SharedAccessKeyName=Root;SharedAccessKey=ZmFrZWtleQ=="
-            })
-            .Build();
+        var config = BuildTestConfiguration();
 
         services.AddLogging();
         services.AddSingleton<IConfiguration>(config);
@@ -144,6 +128,7 @@ public static class ServiceExtensionsTests
         // act
         services.AddServiceRegistrations(config);
         services.Replace(new(typeof(IAuthenticationService), typeof(DummyAuth), ServiceLifetime.Singleton));
+        ReplaceServiceBusClientWithTestDouble(services);
         var provider = services.BuildServiceProvider();
         var factory = provider.GetRequiredService<IFesMessageExecutorFactory>();
 
@@ -158,6 +143,21 @@ public static class ServiceExtensionsTests
         {
             return Task.FromResult(new AuthenticationHeaderValue("Bearer", "abc"));
         }
+    }
+
+    private static IConfigurationRoot BuildTestConfiguration()
+    {
+        return new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string>
+            {
+                ["ServiceBus:ConnectionString"] = "Endpoint=sb://fake.servicebus.windows.net/;SharedAccessKeyName=Root;SharedAccessKey=ZmFrZWtleQ=="
+            })
+            .Build();
+    }
+
+    private static void ReplaceServiceBusClientWithTestDouble(IServiceCollection services)
+    {
+        services.Replace(new ServiceDescriptor(typeof(ServiceBusClient), _ => Mock.Of<ServiceBusClient>(), ServiceLifetime.Singleton));
     }
 }
 
