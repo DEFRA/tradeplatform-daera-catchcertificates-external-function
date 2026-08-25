@@ -13,6 +13,8 @@ public class StorageDocumentCreateInbound : IMmoEntity<ExporterInbound>
 {
     public AuthorityInbound Authority { get; set; }
 
+    public TransportationInbound ArrivalTransportation { get; set; }
+
     public string CaseType1 { get; set; }
 
     public string CaseType2 { get; set; }
@@ -43,9 +45,11 @@ public class StorageDocumentCreateInbound : IMmoEntity<ExporterInbound>
 
     public bool? RequestedByAdmin { get; set; }
 
-    public IEnumerable<StorageFacilityInbound> StorageFacilities { get; set; }
+    public StorageFacilityInbound StorageFacility { get; set; }
 
     public TransportationInbound Transportation { get; set; }
 
     public int? Version { get; set; }
+
+    public string PointOfDestination { get; set; }
 }

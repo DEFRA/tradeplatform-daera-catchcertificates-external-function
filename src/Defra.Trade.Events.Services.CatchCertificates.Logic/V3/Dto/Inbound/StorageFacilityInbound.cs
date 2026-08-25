@@ -7,5 +7,11 @@ public class StorageFacilityInbound
 {
     public AddressInbound Address { get; set; }
 
+    public string ApprovalNumber { get; set; }
+
+    public string DateOfUnloading { get; set; }
+
     public string Name { get; set; }
+
+    public string ProductHandling { get; set; }
 }
