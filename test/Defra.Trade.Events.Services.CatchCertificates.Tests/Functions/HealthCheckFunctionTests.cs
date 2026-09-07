@@ -12,8 +12,6 @@ using Defra.Trade.Events.Services.CatchCertificates.Functions;
 using Defra.Trade.Events.Services.CatchCertificates.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Moq;
 using Shouldly;
@@ -36,7 +34,7 @@ public class HealthCheckFunctionTests
     public void RunAsync_HasFunctionAttribute()
     {
         // Arrange & Act
-        var attribute = FunctionTestHelpers.MethodHasSingleAttribute<HealthCheckFunction, FunctionNameAttribute>(
+        var attribute = FunctionTestHelpers.MethodHasSingleAttribute<HealthCheckFunction, FunctionAttribute>(
             nameof(HealthCheckFunction.RunAsync));
 
         // Assert
@@ -93,5 +91,72 @@ public class HealthCheckFunctionTests
         var errors = bodyText.Value as HealthCheckResponse;
         errors.ShouldNotBeNull();
         errors.Status.ShouldBe("Unhealthy");
+    }
+
+    [Fact]
+    public async Task RunAsync_DegradedHealthCheck_ReturnsResponseWithDegradedStatus()
+    {
+        // Arrange
+        var body = new MemoryStream(Encoding.UTF8.GetBytes(string.Empty));
+        var req = new FakeHttpRequestData(new Mock<FunctionContext>().Object, new Uri("https://test/api/message"), body);
+        var healthReport = new HealthReport(new Dictionary<string, HealthReportEntry>(), HealthStatus.Degraded, TimeSpan.FromSeconds(1));
+        _healthCheckService.Setup(s => s.CheckHealthAsync(null, CancellationToken.None)).ReturnsAsync(healthReport);
+
+        // Act
+        var result = await _sut.RunAsync(req);
+
+        // Assert
+        result.ShouldNotBeNull();
+        var bodyText = result as JsonResult;
+        bodyText.ShouldNotBeNull();
+        var response = bodyText.Value as HealthCheckResponse;
+        response.ShouldNotBeNull();
+        response.Status.ShouldBe("Degraded");
+    }
+
+    [Fact]
+    public async Task RunAsync_UnhealthyWithEntries_ReturnsResponseContainingEntryDetails()
+    {
+        // Arrange
+        var body = new MemoryStream(Encoding.UTF8.GetBytes(string.Empty));
+        var req = new FakeHttpRequestData(new Mock<FunctionContext>().Object, new Uri("https://test/api/message"), body);
+        var entries = new Dictionary<string, HealthReportEntry>
+        {
+            ["dependency-a"] = new HealthReportEntry(
+                HealthStatus.Unhealthy,
+                "dependency-a failed",
+                TimeSpan.FromMilliseconds(10),
+                new InvalidOperationException("boom"),
+                data: null),
+        };
+        var healthReport = new HealthReport(entries, HealthStatus.Unhealthy, TimeSpan.FromSeconds(1));
+        _healthCheckService.Setup(s => s.CheckHealthAsync(null, CancellationToken.None)).ReturnsAsync(healthReport);
+
+        // Act
+        var result = await _sut.RunAsync(req);
+
+        // Assert
+        result.ShouldNotBeNull();
+        var bodyText = result as JsonResult;
+        bodyText.ShouldNotBeNull();
+        var response = bodyText.Value as HealthCheckResponse;
+        response.ShouldNotBeNull();
+        response.Status.ShouldBe("Unhealthy");
+    }
+
+    [Fact]
+    public async Task RunAsync_ValidHealthCheck_CallsCheckHealthAsyncExactlyOnce()
+    {
+        // Arrange
+        var body = new MemoryStream(Encoding.UTF8.GetBytes(string.Empty));
+        var req = new FakeHttpRequestData(new Mock<FunctionContext>().Object, new Uri("https://test/api/message"), body);
+        var healthReport = new HealthReport(new Dictionary<string, HealthReportEntry>(), HealthStatus.Healthy, TimeSpan.FromSeconds(1));
+        _healthCheckService.Setup(s => s.CheckHealthAsync(null, CancellationToken.None)).ReturnsAsync(healthReport);
+
+        // Act
+        await _sut.RunAsync(req);
+
+        // Assert
+        _healthCheckService.Verify(s => s.CheckHealthAsync(null, CancellationToken.None), Times.Once);
     }
 }

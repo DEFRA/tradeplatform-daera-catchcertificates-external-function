@@ -3,7 +3,6 @@
 
 using System;
 using Azure.Messaging.ServiceBus;
-using Defra.Trade.Common.Functions.Extensions;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Logic.V3;
 
@@ -26,11 +25,11 @@ public static class MessageFilter
 
     private static bool IsLabelPrefix(this ServiceBusReceivedMessage message, params string[] prefixes)
     {
-        return message.Label() is string label && Array.Exists(prefixes, prefix => label.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
+        return message.Subject is string label && Array.Exists(prefixes, prefix => label.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
     }
 
     private static bool IsV3Message(this ServiceBusReceivedMessage message)
     {
-        return message.SchemaVersion() is "3";
+        return message.ApplicationProperties.TryGetValue("SchemaVersion", out var v) && v?.ToString() == "3";
     }
 }

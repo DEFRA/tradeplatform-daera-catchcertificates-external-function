@@ -78,7 +78,8 @@ extends:
         -ApimSettings:BackendAppIdUri "api://$(environment)-futuretrade-int.defra.gov.uk" 
         -ApimSettings:Authority "$(internalAPIMAudience)" 
         -KeyVaultEndpoint "https://$(environment)trd$(nc-function-infrastructure)$(nc-resource-keyvault)1001.vault.azure.net/"
-        -FUNCTIONS_INPROC_NET8_ENABLED "1"
+        -ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)"
+        -ServiceBusFQN "$(serviceBusNamespace)"
 
     publishProject: '**/Defra.Trade.Events.Services.CatchCertificates.csproj'
     setupSlotServiceBusAccess: true

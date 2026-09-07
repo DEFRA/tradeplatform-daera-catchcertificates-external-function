@@ -3,8 +3,7 @@
 
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.ServiceBus;
+using Microsoft.Azure.Functions.Worker;
 
 namespace Defra.Trade.Events.Services.CatchCertificates.Logic.MessageExecutors;
 
@@ -12,6 +11,6 @@ public interface IFesMessageExecutor
 {
     Task ExecuteAsync(ServiceBusReceivedMessage message,
         ServiceBusMessageActions messageReceiver,
-        ExecutionContext executionContext,
-        IAsyncCollector<ServiceBusMessage> eventStoreCollector);
+        FunctionContext executionContext,
+        ServiceBusSender eventStoreSender);
 }

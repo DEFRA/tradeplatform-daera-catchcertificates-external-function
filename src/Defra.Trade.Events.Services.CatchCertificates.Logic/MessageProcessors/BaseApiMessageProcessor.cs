@@ -8,8 +8,8 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Defra.Trade.Common.Exceptions;
-using Defra.Trade.Common.Functions.Interfaces;
-using Defra.Trade.Common.Functions.Models;
+using Defra.Trade.Common.Functions.Isolated.Interfaces;
+using Defra.Trade.Common.Functions.Isolated.Models;
 using Defra.Trade.Events.Services.CatchCertificates.Logic.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +17,7 @@ namespace Defra.Trade.Events.Services.CatchCertificates.Logic.MessageProcessors;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S2436:Types and methods should not have too many generic parameters", Justification = "Low complexity")]
 public abstract class BaseApiMessageProcessor<TInbound, THeader, TApi, TApiModel> : IMessageProcessor<TInbound, THeader>
-    where THeader : BaseMessageHeader
+    where THeader : TradeEventMessageHeader
 {
     private readonly ILogger<BaseApiMessageProcessor<TInbound, THeader, TApi, TApiModel>> _logger;
     private readonly IMapper _mapper;

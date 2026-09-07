@@ -3,7 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Defra.Trade.Common.Functions.Interfaces;
+using Defra.Trade.Common.Functions.Isolated.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;

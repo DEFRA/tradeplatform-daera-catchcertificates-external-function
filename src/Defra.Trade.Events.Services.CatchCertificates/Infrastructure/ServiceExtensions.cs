@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
-using Defra.Trade.Common.Functions;
-using Defra.Trade.Common.Functions.EventStore;
-using Defra.Trade.Common.Functions.Interfaces;
-using Defra.Trade.Common.Functions.Models;
-using Defra.Trade.Common.Functions.Validation;
+using Defra.Trade.Common.Functions.Isolated;
+using Defra.Trade.Common.Functions.Isolated.EventStore;
+using Defra.Trade.Common.Functions.Isolated.Interfaces;
+using Defra.Trade.Common.Functions.Isolated.Models;
+using Defra.Trade.Common.Functions.Isolated.Services;
+using Defra.Trade.Common.Functions.Isolated.Validation;
 using Defra.Trade.Common.Logging.Extensions;
 using Defra.Trade.Common.Security.Authentication.Infrastructure;
 using Defra.Trade.Common.Security.Authentication.Interfaces;
@@ -46,8 +47,19 @@ public static class ServiceExtensions
             .AddEventStoreConfiguration()
             .AddApimAuthentication(config.GetSection(nameof(ApimSettings)))
             .AddApiClients()
-            .AddMessagePipelines()
-            .AddFunctionLogging(ApplicationConstants.AppName);
+            .AddMessagePipelines();
+
+        services.AddSingleton<IMessageCollector, EventStoreCollector>();
+        services.AddSingleton(sp =>
+        {
+#if DEBUG
+            var cs = config.GetValue<string>("ServiceBus:ConnectionString");
+            return new ServiceBusClient(cs);
+#else
+            var ns = config.GetValue<string>("ServiceBusFQN");
+            return new ServiceBusClient(ns, new Azure.Identity.DefaultAzureCredential());
+#endif
+        });
 
         return services;
     }
@@ -81,12 +93,12 @@ public static class ServiceExtensions
 
     private static IServiceCollection AddMappers(this IServiceCollection services)
     {
-        return services.AddAutoMapper(typeof(StandardMessageHeader).Assembly, typeof(ApimConfiguration).Assembly);
+        return services.AddAutoMapper(typeof(TradeEventMessageHeader).Assembly, typeof(ApimConfiguration).Assembly);
     }
 
     private static IServiceCollection AddMessagePipeline<TInbound, THeader, TProcessor>(this IServiceCollection services, Predicate<ServiceBusReceivedMessage> predicate)
         where TProcessor : class, IMessageProcessor<TInbound, THeader>
-        where THeader : BaseMessageHeader
+        where THeader : TradeEventMessageHeader
     {
         return services.AddMessagePipeline<TInbound, TInbound, TInbound, THeader, TProcessor>(predicate);
     }
@@ -94,7 +106,7 @@ public static class ServiceExtensions
     [SuppressMessage("Major Code Smell", "S2436:Types and methods should not have too many generic parameters", Justification = "The types used cannot be reduced further")]
     private static IServiceCollection AddMessagePipeline<TInbound, TDomain, TOutbound, THeader, TProcessor>(this IServiceCollection services, Predicate<ServiceBusReceivedMessage> predicate)
         where TProcessor : class, IMessageProcessor<TDomain, THeader>
-        where THeader : BaseMessageHeader
+        where THeader : TradeEventMessageHeader
     {
         services.TryAddSingleton<ICustomValidatorFactory, FluentValidatorFactory>();
         services.TryAddSingleton<ISchemaValidator, SchemaValidator>();
@@ -110,17 +122,17 @@ public static class ServiceExtensions
     private static IServiceCollection AddMessagePipelines(this IServiceCollection services)
     {
         return services
-            .AddMessagePipeline<V2Inbound.CatchCertificateCaseCreateInbound, StandardMessageHeader, V2Processors.CatchCertificateCaseMessageProcessor>(V2Filter.IsCatchCertificateMessage)
-            .AddMessagePipeline<V2Inbound.ProcessingStatementCreateInbound, StandardMessageHeader, V2Processors.ProcessingStatementMessageProcessor>(V2Filter.IsProcessingStatementMessage)
-            .AddMessagePipeline<V2Inbound.StorageDocumentCreateInbound, StandardMessageHeader, V2Processors.StorageDocumentMessageProcessor>(V2Filter.IsStorageDocumentMessage)
-            .AddMessagePipeline<V3Inbound.CatchCertificateCaseCreateInbound, StandardMessageHeader, V3Processors.CatchCertificateCaseMessageProcessor>(V3Filter.IsCatchCertificateMessage)
-            .AddMessagePipeline<V3Inbound.ProcessingStatementCreateInbound, StandardMessageHeader, V3Processors.ProcessingStatementMessageProcessor>(V3Filter.IsProcessingStatementMessage)
-            .AddMessagePipeline<V3Inbound.StorageDocumentCreateInbound, StandardMessageHeader, V3Processors.StorageDocumentMessageProcessor>(V3Filter.IsStorageDocumentMessage);
+            .AddMessagePipeline<V2Inbound.CatchCertificateCaseCreateInbound, TradeEventMessageHeader, V2Processors.CatchCertificateCaseMessageProcessor>(V2Filter.IsCatchCertificateMessage)
+            .AddMessagePipeline<V2Inbound.ProcessingStatementCreateInbound, TradeEventMessageHeader, V2Processors.ProcessingStatementMessageProcessor>(V2Filter.IsProcessingStatementMessage)
+            .AddMessagePipeline<V2Inbound.StorageDocumentCreateInbound, TradeEventMessageHeader, V2Processors.StorageDocumentMessageProcessor>(V2Filter.IsStorageDocumentMessage)
+            .AddMessagePipeline<V3Inbound.CatchCertificateCaseCreateInbound, TradeEventMessageHeader, V3Processors.CatchCertificateCaseMessageProcessor>(V3Filter.IsCatchCertificateMessage)
+            .AddMessagePipeline<V3Inbound.ProcessingStatementCreateInbound, TradeEventMessageHeader, V3Processors.ProcessingStatementMessageProcessor>(V3Filter.IsProcessingStatementMessage)
+            .AddMessagePipeline<V3Inbound.StorageDocumentCreateInbound, TradeEventMessageHeader, V3Processors.StorageDocumentMessageProcessor>(V3Filter.IsStorageDocumentMessage);
     }
 
     private static IServiceCollection AddValidators(this IServiceCollection services)
     {
-        return services.AddValidatorsFromAssemblyContaining<StandardMessageHeader>(lifetime: ServiceLifetime.Singleton)
+        return services.AddValidatorsFromAssemblyContaining<TradeEventMessageHeader>(lifetime: ServiceLifetime.Singleton)
             .AddValidatorsFromAssemblyContaining<ApimConfiguration>(lifetime: ServiceLifetime.Singleton);
     }
 
